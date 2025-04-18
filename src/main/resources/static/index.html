@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Меню</title>
+    <link href="https://fonts.googleVis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+          margin: 0;
+          font-family: 'Playfair Display', serif;
+          background-color: #FDFDFD;
+          color: #1c1c1c;
+        }
+
+        .top-section {
+          text-align: center;
+          padding: 60px 30px;
+          background-color: #F8F8F8;
+        }
+
+        .top-section h1 {
+          color: #15154B;
+          font-size: 42px;
+          margin-bottom: 20px;
+        }
+
+        .description {
+          max-width: 800px;
+          margin: 0 auto;
+          font-size: 18px;
+          line-height: 1.7;
+          color: #444;
+        }
+
+        .section {
+          margin-top: 40px;
+          text-align: left;
+        }
+
+       .image-wrapper {
+         position: relative;
+         display: inline-block;
+         margin-bottom: 20px;
+       }
+
+        .main-image {
+         width: 100%;
+         max-width: 1200px;
+         height: auto;
+         border-radius: 40px;
+        }
+
+        .admin-lock {
+          position: fixed;
+          top: 16px;
+          right: 16px;
+          z-index: 1000;
+        }
+
+        .admin-lock img {
+          width: 32px;
+          height: 32px;
+        }
+
+        .section-title-button {
+          display: flex;
+          align-items: center;
+          font-size: 24px;
+          color: #343434;
+          cursor: pointer;
+          user-select: none;
+          transition: color 0.3s ease;
+        }
+
+        .section-title-button:hover {
+          color: #cc2b73;
+        }
+
+        .avatar {
+          width: 32px;
+          height: 32px;
+          display: inline-block;
+          margin-right: 10px;
+        }
+
+        .emoji {
+          font-size: 24px;
+        }
+
+        .avatar {
+          display: none;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .toggle-list {
+          display: none;
+          margin-top: 15px;
+          padding-left: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="admin-lock">
+    <img src="/imgIns/Замочек для админки.png" alt="Админка">
+</div>
+
+<div class="top-section">
+
+    <div class="image-wrapper">
+        <img src="/imgIns/t2.png" alt="Основной фон" class="main-image">
+    </div>
+
+    <h1>Добро пожаловать</h1>
+
+    <div class="description">
+        <p>
+            Погрузитесь в мир изысканных вкусов и ароматов. Наше меню — это не просто блюда и напитки, а гастрономическая история, созданная с любовью к деталям и уважением к вашему вкусу.
+        </p>
+
+        <div class="section">
+            <div class="section-title-button" id="toggle-button">
+                <span class="emoji" id="emoji">👨‍🍳</span>
+                <img src="/imgIns/Для аватарки почему нас...png" alt="Шеф" class="avatar" id="avatar">
+                Почему выбирают нас?
+            </div>
+            <ul class="toggle-list" id="info-list">
+                <li>Индивидуальный подход — меню адаптируется под формат и вкус вашего мероприятия.</li>
+                <li>Свежесть и качество — еда готовится на заказ, из отборных ингредиентов.</li>
+                <li>Эстетика — каждая деталь продумана, чтобы радовать глаз и возбуждать аппетит.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    const toggleButton = document.getElementById('toggle-button');
+    const infoList = document.getElementById('info-list');
+    const emoji = document.getElementById('emoji');
+    const avatar = document.getElementById('avatar');
+
+    toggleButton.addEventListener('click', () => {
+      const isOpen = infoList.style.display === 'block';
+      infoList.style.display = isOpen ? 'none' : 'block';
+      emoji.style.display = isOpen ? 'inline-block' : 'none';
+      avatar.style.display = isOpen ? 'none' : 'inline-block';
+    });
+</script>
+
+</body>
+</html>
+

@@ -5,4 +5,7 @@ import com.example.demo.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
+    void deleteByName(String name);
+
+    Item getByName(String name);
 }
