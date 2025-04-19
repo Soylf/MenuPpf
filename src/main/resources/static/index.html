@@ -13,19 +13,25 @@
           color: #1c1c1c;
         }
 
-        .top-section {
-          text-align: center;
-          padding: 60px 30px;
-          background-color: #F8F8F8;
+        .menu-site {
+         text-align: center;
+         padding: 60px 30px;
+         background-color: #FDFDFD;
         }
 
-        .top-section h1 {
+        .up-site {
+          text-align: center;
+          padding: 60px 30px;
+          background-color: #f8f8f8;
+        }
+
+        .up-site h1 {
           color: #15154B;
           font-size: 42px;
           margin-bottom: 20px;
         }
 
-        .description {
+        .up-description {
           max-width: 800px;
           margin: 0 auto;
           font-size: 18px;
@@ -51,17 +57,6 @@
          border-radius: 40px;
         }
 
-        .admin-lock {
-          position: fixed;
-          top: 16px;
-          right: 16px;
-          z-index: 1000;
-        }
-
-        .admin-lock img {
-          width: 32px;
-          height: 32px;
-        }
 
         .section-title-button {
           display: flex;
@@ -100,6 +95,17 @@
           padding-left: 20px;
         }
 
+        .admin-lock {
+          position: fixed;
+          top: 16px;
+          right: 16px;
+          z-index: 1000;
+        }
+
+        .admin-lock img {
+          width: 32px;
+          height: 32px;
+        }
     </style>
 </head>
 <body>
@@ -108,22 +114,21 @@
     <img src="/imgIns/Замочек для админки.png" alt="Админка">
 </div>
 
-<div class="top-section">
-
+<div class="up-site">
     <div class="image-wrapper">
         <img src="/imgIns/t2.png" alt="Основной фон" class="main-image">
     </div>
 
     <h1>Добро пожаловать</h1>
 
-    <div class="description">
+    <div class="up-description">
         <p>
             Погрузитесь в мир изысканных вкусов и ароматов. Наше меню — это не просто блюда и напитки, а гастрономическая история, созданная с любовью к деталям и уважением к вашему вкусу.
         </p>
 
         <div class="section">
             <div class="section-title-button" id="toggle-button">
-                <span class="emoji" id="emoji">👨‍🍳</span>
+                <span class="emoji" id="emoji">⚫</span>
                 <img src="/imgIns/Для аватарки почему нас...png" alt="Шеф" class="avatar" id="avatar">
                 Почему выбирают нас?
             </div>
@@ -134,6 +139,11 @@
             </ul>
         </div>
     </div>
+</div>
+
+<div class="menu-site">
+
+
 </div>
 
 <script>

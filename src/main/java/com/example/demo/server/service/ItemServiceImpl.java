@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.server.service;
 
 import com.example.demo.model.Item;
 import com.example.demo.repository.ItemRepository;
@@ -18,8 +18,8 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void delete(Item item) {
-        repository.deleteByName(item.getName());
+    public void delete(String name) {
+        repository.deleteByName(name);
     }
 
     @Override

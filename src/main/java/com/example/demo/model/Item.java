@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -16,8 +17,10 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer price;
+    private String price;
     private String name;
+    private String category;
     private String description;
-    private String comments;
+    @Lob //BLOB
+    private byte[] image;
 }
