@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService{
-    private ItemRepository repository;
+    private final ItemRepository repository;
 
     @Override
     public void save(Item item) {
