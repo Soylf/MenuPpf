@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public Item get(String name) {
-        return repository.getByName(name);
+    public List<Item> getAllByCategory() {
+        return List.of();
     }
 }
