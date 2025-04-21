@@ -8,5 +8,5 @@ public interface ItemService {
 
     void save(Item item);
     void delete(String name);
-    List<Item> getAllByCategory();
+    List<Item> getAll();
 }

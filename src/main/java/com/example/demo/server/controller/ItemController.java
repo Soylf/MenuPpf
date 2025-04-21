@@ -1,6 +1,7 @@
 package com.example.demo.server.controller;
 
 import com.example.demo.model.Item;
+import com.example.demo.model.ItemDto;
 import com.example.demo.server.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/items")
@@ -43,7 +45,9 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<Item> getAllByCategory() {
-        return service.getAllByCategory();
+    public List<ItemDto> getAllItems() {
+        return service.getAll().stream()
+                .map(ItemDto::new)
+                .collect(Collectors.toList());
     }
 }

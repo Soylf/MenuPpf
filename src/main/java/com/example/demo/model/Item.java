@@ -22,5 +22,6 @@ public class Item {
     private String category;
     private String description;
     @Lob //BLOB
+    @Column(name = "image")
     private byte[] image;
 }
