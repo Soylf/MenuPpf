@@ -3,8 +3,6 @@ package com.example.demo.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Base64;
-
 @Data
 @NoArgsConstructor
 public class ItemDto {
@@ -14,12 +12,15 @@ public class ItemDto {
     private String category;
     private String image;
 
-    public ItemDto(Item item) {
+    public ItemDto(Item item, String imageBase64) {
         this.name = item.getName();
-        this.price = item.getPrice();
         this.description = item.getDescription();
+        this.price = item.getPrice();
         this.category = item.getCategory();
-        this.image = Base64.getEncoder().encodeToString(item.getImage());
+        if (item.getImage() != null) {
+            this.image = imageBase64;
+        } else {
+            this.image = null;
+        }
     }
-
 }

@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/items")
@@ -46,8 +45,6 @@ public class ItemController {
 
     @GetMapping
     public List<ItemDto> getAllItems() {
-        return service.getAll().stream()
-                .map(ItemDto::new)
-                .collect(Collectors.toList());
+        return service.getAll();
     }
 }
