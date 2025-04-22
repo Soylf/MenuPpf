@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Меню</title>
-    <link href="https://fonts.googleVis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -12,7 +12,6 @@
           background-color: #FDFDFD;
           color: #1c1c1c;
         }
-
 
         .up-site {
           text-align: center;
@@ -39,20 +38,6 @@
           text-align: left;
         }
 
-       .image-wrapper {
-         position: relative;
-         display: inline-block;
-         margin-bottom: 20px;
-       }
-
-        .main-image {
-         width: 100%;
-         max-width: 1200px;
-         height: auto;
-         border-radius: 40px;
-        }
-
-
         .section-title-button {
           display: flex;
           align-items: center;
@@ -65,6 +50,19 @@
 
         .section-title-button:hover {
           color: #cc2b73;
+        }
+
+       .image-wrapper {
+         position: relative;
+         display: inline-block;
+         margin-bottom: 20px;
+       }
+
+        .main-image {
+         width: 100%;
+         max-width: 1200px;
+         height: auto;
+         border-radius: 40px;
         }
 
         .avatar {
@@ -109,11 +107,89 @@
           transform: scale(1.1);
         }
 
-         /* Меню сайта */
+        /* Меню сайта */
         .menu-site {
-         text-align: center;
-         padding: 60px 30px;
-         background-color: #FDFDFD;
+          text-align: center;
+          padding: 60px 30px;
+          background-color: #FDFDFD;
+        }
+
+        .menu-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .menu-item {
+          background-color: #fff;
+          padding: 10px;
+          border-radius: 10px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          overflow: hidden;
+          position: relative;
+          z-index: 1;
+          max-weight: 150px;
+        }
+
+        .menu-item::before { /* Эффект подложки */
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.05)), radial-gradient(circle at center, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
+         opacity: 0;
+         transition: opacity 0.3s cubic-bezier(.25,.8,.25,1);
+         pointer-events: none;
+         z-index: -1;
+        }
+
+        .menu-item:hover::before {
+         opacity: 1;
+        }
+
+        .menu-item:hover {
+          transform: scale(1.05);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item img {
+          width: 100%;
+          height: auto;
+          border-radius: 10px;
+          object-fit: cover;
+          margin-bottom: 15px;
+        }
+        .menu-item img:hover {
+         filter: brightness(1.1);
+         }
+
+        .menu-item h3 {
+          font-size: 18px;
+          color: #343434;
+          margin-bottom: 5px;
+          line-height: 1.2;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .menu-item p {
+          font-size: 14px;
+          color: #666;
+          margin-bottom: 5px;
+          word-warp: break-word;
+        }
+
+        .menu-item .price {
+          font-size: 16px;
+          font-weight: bold;
+          color: #cc2b73;
+          letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -150,19 +226,98 @@
     </div>
 </div>
 
-<script>
-    const toggleButton = document.getElementById('toggle-button');
-    const infoList = document.getElementById('info-list');
-    const emoji = document.getElementById('emoji');
-    const avatar = document.getElementById('avatar');
+<div class="menu-site">
+    <h2>Наше меню</h2>
+    <div id="menu-container"></div>
+</div>
 
-    toggleButton.addEventListener('click', () => {
-      const isOpen = infoList.style.display === 'block';
-      infoList.style.display = isOpen ? 'none' : 'block';
-      emoji.style.display = isOpen ? 'inline-block' : 'none';
-      avatar.style.display = isOpen ? 'none' : 'inline-block';
+<script>
+const toggleButton = document.getElementById('toggle-button');
+const infoList = document.getElementById('info-list');
+const emoji = document.getElementById('emoji');
+const avatar = document.getElementById('avatar');
+
+toggleButton.addEventListener('click', () => {
+  const isOpen = infoList.style.display === 'block';
+  infoList.style.display = isOpen ? 'none' : 'block';
+  emoji.style.display = isOpen ? 'inline-block' : 'none';
+  avatar.style.display = isOpen ? 'none' : 'inline-block';
+});
+
+function groupByCategory(items) {
+    return items.reduce((acc, currentItem) => {
+        const categoryName = currentItem.category || 'Без категории';
+        acc[categoryName] = [...(acc[categoryName] || []), currentItem];
+        return acc;
+    }, {});
+}
+
+function createCategorySection(categoryName, itemsInCategory) {
+    const sectionContainer = document.createElement('section');
+    sectionContainer.classList.add('category-section');
+
+    const header = document.createElement('h2');
+    header.textContent = categoryName;
+    sectionContainer.appendChild(header);
+
+    const menuGrid = document.createElement('div');
+    menuGrid.classList.add('menu-grid');
+    sectionContainer.appendChild(menuGrid);
+
+    itemsInCategory.forEach(item => {
+        const itemCard = document.createElement('div');
+        itemCard.classList.add('menu-item');
+
+        let imageUrl = item.image ? 'data:image/jpeg;base64,' + item.image : '/path/to/default-image.jpg';
+
+        itemCard.innerHTML = `
+<div class="image-wrapper">
+    <img src="${imageUrl}" alt="${item.name}" class="main-image">
+</div>
+<h3>${item.name}</h3>
+<p>${item.description || ''}</p>
+<div style="display:flex; justify-content:space-between; align-items:center;">
+    <p class="price">Цена: ${item.price} ₽</p>
+    <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
+        <strong>Колво:</strong> ${item.pieces || '-'}
+        <br />
+        <strong>Вес:</strong> ${item.heft || '-'} ккал
+    </div>
+</div>
+`;
+
+        menuGrid.appendChild(itemCard);
     });
+
+    return sectionContainer;
+}
+
+function displayMenu(items) {
+    const groupedItems = groupByCategory(items);
+    const container = document.getElementById('menu-container');
+    container.innerHTML = '';
+
+    Object.keys(groupedItems).forEach(category => {
+        const categorySection = createCategorySection(category, groupedItems[category]);
+        container.appendChild(categorySection);
+    });
+}
+
+async function fetchItems() {
+    try {
+        const response = await fetch('/admin/items');
+        if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
+
+        const items = await response.json();
+        displayMenu(items);
+    } catch (err) {
+        console.error("Ошибка:", err.message);
+    }
+}
+
+fetchItems()
 </script>
 
 </body>
 </html>
+

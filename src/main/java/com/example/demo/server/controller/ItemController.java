@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/items")
@@ -24,6 +23,8 @@ public class ItemController {
             @RequestParam String price,
             @RequestParam String category,
             @RequestParam(required = false) String description,
+            @RequestParam String pieces,
+            @RequestParam String heft,
             @RequestParam("image") MultipartFile imageFile
     ) throws IOException {
 
@@ -32,6 +33,8 @@ public class ItemController {
         item.setPrice(price);
         item.setCategory(category);
         item.setDescription(description);
+        item.setHeft(heft);
+        item.setPieces(pieces);
         item.setImage(imageFile.getBytes());
 
         service.save(item);
@@ -46,8 +49,6 @@ public class ItemController {
 
     @GetMapping
     public List<ItemDto> getAllItems() {
-        return service.getAll().stream()
-                .map(ItemDto::new)
-                .collect(Collectors.toList());
+        return service.getAll();
     }
 }

@@ -21,7 +21,8 @@ public class Item {
     private String name;
     private String category;
     private String description;
-    @Lob //BLOB
-    @Column(name = "image")
+    private String heft;
+    private String pieces;
+    @Lob
     private byte[] image;
 }

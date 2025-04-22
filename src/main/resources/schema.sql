@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS Items
     name        VARCHAR(255),
     description VARCHAR(255),
     category    VARCHAR(255),
+    pieces      VARCHAR(255),
+    heft        VARCHAR(255),
     image       BYTEA
 );
