@@ -19,8 +19,11 @@ public class ItemDto {
         this.description = item.getDescription();
         this.price = item.getPrice();
         this.category = item.getCategory();
+<<<<<<< HEAD
         this.pieces = item.getPieces();
         this.heft = item.getHeft();
+=======
+>>>>>>> origin/master
         if (item.getImage() != null) {
             this.image = imageBase64;
         } else {

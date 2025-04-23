@@ -21,8 +21,11 @@ public class Item {
     private String name;
     private String category;
     private String description;
+<<<<<<< HEAD
     private String heft;
     private String pieces;
+=======
+>>>>>>> origin/master
     @Lob
     private byte[] image;
 }
