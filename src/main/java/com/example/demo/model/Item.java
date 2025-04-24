@@ -21,11 +21,19 @@ public class Item {
     private String name;
     private String category;
     private String description;
-<<<<<<< HEAD
     private String heft;
     private String pieces;
-=======
->>>>>>> origin/master
     @Lob
     private byte[] image;
+    private String imageFormat;
+
+    public String getImageFormat() {
+        if (image == null) {
+            return null;
+        }
+        if (imageFormat == null) {
+            imageFormat = "image/jpeg";
+        }
+        return imageFormat;
+    }
 }

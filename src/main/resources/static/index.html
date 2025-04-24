@@ -117,18 +117,13 @@
         .menu-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-<<<<<<< HEAD
           gap: 20px;
-=======
-          gap: 40px;
->>>>>>> origin/master
           max-width: 1200px;
           margin: 0 auto;
         }
 
         .menu-item {
           background-color: #fff;
-<<<<<<< HEAD
           padding: 10px;
           border-radius: 10px;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -159,22 +154,11 @@
 
         .menu-item:hover {
           transform: scale(1.05);
-=======
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .menu-item:hover {
-          transform: translateY(-10px);
->>>>>>> origin/master
           box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .menu-item img {
           width: 100%;
-<<<<<<< HEAD
           height: auto;
           border-radius: 10px;
           object-fit: cover;
@@ -206,31 +190,6 @@
           font-weight: bold;
           color: #cc2b73;
           letter-spacing: 0.5px;
-=======
-          border-radius: 10px;
-          object-fit: cover;
-          max-width: 120px;
-          max-height: 100px;
-          margin-bottom: 10px;
-        }
-
-        .menu-item h3 {
-          font-size: 24px;
-          color: #343434;
-          margin-bottom: 10px;
-        }
-
-        .menu-item p {
-          font-size: 16px;
-          color: #666;
-          margin-bottom: 10px;
-        }
-
-        .menu-item .price {
-          font-size: 18px;
-          font-weight: bold;
-          color: #cc2b73;
->>>>>>> origin/master
         }
     </style>
 </head>
@@ -273,131 +232,94 @@
 </div>
 
 <script>
-const toggleButton = document.getElementById('toggle-button');
-const infoList = document.getElementById('info-list');
-const emoji = document.getElementById('emoji');
-const avatar = document.getElementById('avatar');
+    const toggleButton = document.getElementById('toggle-button');
+    const infoList = document.getElementById('info-list');
+    const emoji = document.getElementById('emoji');
+    const avatar = document.getElementById('avatar');
 
-toggleButton.addEventListener('click', () => {
-  const isOpen = infoList.style.display === 'block';
-  infoList.style.display = isOpen ? 'none' : 'block';
-  emoji.style.display = isOpen ? 'inline-block' : 'none';
-  avatar.style.display = isOpen ? 'none' : 'inline-block';
-});
-
-<<<<<<< HEAD
-function groupByCategory(items) {
-    return items.reduce((acc, currentItem) => {
-        const categoryName = currentItem.category || 'Без категории';
-        acc[categoryName] = [...(acc[categoryName] || []), currentItem];
-        return acc;
-    }, {});
-}
-
-function createCategorySection(categoryName, itemsInCategory) {
-    const sectionContainer = document.createElement('section');
-    sectionContainer.classList.add('category-section');
-
-    const header = document.createElement('h2');
-    header.textContent = categoryName;
-    sectionContainer.appendChild(header);
-
-    const menuGrid = document.createElement('div');
-    menuGrid.classList.add('menu-grid');
-    sectionContainer.appendChild(menuGrid);
-
-    itemsInCategory.forEach(item => {
-        const itemCard = document.createElement('div');
-        itemCard.classList.add('menu-item');
-
-        let imageUrl = item.image ? 'data:image/jpeg;base64,' + item.image : '/path/to/default-image.jpg';
-
-        itemCard.innerHTML = `
-<div class="image-wrapper">
-    <img src="${imageUrl}" alt="${item.name}" class="main-image">
-</div>
-<h3>${item.name}</h3>
-<p>${item.description || ''}</p>
-<div style="display:flex; justify-content:space-between; align-items:center;">
-    <p class="price">Цена: ${item.price} ₽</p>
-    <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
-        <strong>Колво:</strong> ${item.pieces || '-'}
-        <br />
-        <strong>Вес:</strong> ${item.heft || '-'} ккал
-    </div>
-</div>
-`;
-
-        menuGrid.appendChild(itemCard);
+    toggleButton.addEventListener('click', () => {
+      const isOpen = infoList.style.display === 'block';
+      infoList.style.display = isOpen ? 'none' : 'block';
+      emoji.style.display = isOpen ? 'inline-block' : 'none';
+      avatar.style.display = isOpen ? 'none' : 'inline-block';
     });
 
-    return sectionContainer;
-}
-
-function displayMenu(items) {
-    const groupedItems = groupByCategory(items);
-    const container = document.getElementById('menu-container');
-    container.innerHTML = '';
-
-    Object.keys(groupedItems).forEach(category => {
-        const categorySection = createCategorySection(category, groupedItems[category]);
-        container.appendChild(categorySection);
-    });
-=======
-function displayMenu(items) {
-    const container = document.getElementById('menu-container');
-    container.innerHTML = '';  // Очищаем контейнер перед добавлением новых карточек
-
-    items.forEach(item => {
-        const itemCard = document.createElement('div');
-        itemCard.classList.add('menu-item');
-
-        let imageUrl = item.image ? 'data:image/jpeg;base64,' + item.image : 'path/to/default-image.jpg';
-
-        itemCard.innerHTML = `
-            <div class="image-wrapper">
-                <img src="${imageUrl}" alt="${item.name}" class="main-image">
-            </div>
-            <h3>${item.name}</h3>
-            <p>${item.description}</p>
-            <p class="price">${item.price}</p>
-        `;
-
-        container.appendChild(itemCard);
-    });
->>>>>>> origin/master
-}
-
-async function fetchItems() {
-    try {
-        const response = await fetch('/admin/items');
-<<<<<<< HEAD
-        if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
-
-        const items = await response.json();
-        displayMenu(items);
-    } catch (err) {
-        console.error("Ошибка:", err.message);
+    function groupByCategory(items) {
+        return items.reduce((acc, currentItem) => {
+            const categoryName = currentItem.category || 'Без категории';
+            acc[categoryName] = [...(acc[categoryName] || []), currentItem];
+            return acc;
+        }, {});
     }
-}
 
-fetchItems()
-=======
-        if (response.ok) {
+    function createCategorySection(categoryName, itemsInCategory) {
+        const sectionContainer = document.createElement('section');
+        sectionContainer.classList.add('category-section');
+
+        const header = document.createElement('h2');
+        header.textContent = categoryName;
+        sectionContainer.appendChild(header);
+
+        const menuGrid = document.createElement('div');
+        menuGrid.classList.add('menu-grid');
+        sectionContainer.appendChild(menuGrid);
+
+        itemsInCategory.forEach(item => {
+            const itemCard = document.createElement('div');
+            itemCard.classList.add('menu-item');
+
+            let imageUrl = item.image ? item.image : '/path/to/default-image.jpg';
+
+            itemCard.innerHTML = `
+    <div class="image-wrapper">
+        <img src="${imageUrl}" alt="${item.name}" class="main-image">
+    </div>
+    <h3>${item.name}</h3>
+    <p>${item.description || ''}</p>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <p class="price">Цена: ${item.price} ₽</p>
+        <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
+            <strong>Колво:</strong> ${item.pieces || '-'}
+            <br />
+            <strong>Вес:</strong> ${item.heft || '-'} ккал
+        </div>
+    </div>
+    `;
+
+            menuGrid.appendChild(itemCard);
+        });
+
+        return sectionContainer;
+    }
+
+    function displayMenu(items) {
+        const groupedItems = groupByCategory(items);
+        const container = document.getElementById('menu-container');
+        container.innerHTML = '';
+
+        Object.keys(groupedItems).forEach(category => {
+            const categorySection = createCategorySection(category, groupedItems[category]);
+            container.appendChild(categorySection);
+        });
+    }
+
+    async function fetchItems() {
+        try {
+            const response = await fetch('/admin/items');
+            if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
+
             const items = await response.json();
             displayMenu(items);
-        } else {
-            console.error('Ошибка при загрузке товаров:', response.status);
+        } catch (err) {
+            console.error("Ошибка:", err.message);
         }
-    } catch (error) {
-        console.error('Ошибка запроса:', error);
     }
-}
 
-fetchItems();
->>>>>>> origin/master
+    fetchItems()
 </script>
 
 </body>
 </html>
+
+
 

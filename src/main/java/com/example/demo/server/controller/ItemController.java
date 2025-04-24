@@ -37,6 +37,7 @@ public class ItemController {
         item.setHeft(heft);
         item.setPieces(pieces);
         item.setImage(imageFile.getBytes());
+        item.setImageFormat(imageFile.getContentType());
 
         service.save(item);
         return ResponseEntity.ok("Товар создан");

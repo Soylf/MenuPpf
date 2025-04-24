@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS Items
     category    VARCHAR(255),
     pieces      VARCHAR(255),
     heft        VARCHAR(255),
-    image       BYTEA
+    image       BYTEA,
+    image_format VARCHAR(50)
 );
