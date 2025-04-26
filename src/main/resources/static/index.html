@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Меню</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 
@@ -124,8 +125,8 @@
 
         .menu-item {
           background-color: #fff;
-          padding: 10px;
-          border-radius: 10px;
+          padding: 20px;
+          border-radius: 20px;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           overflow: hidden;
@@ -172,10 +173,7 @@
           font-size: 18px;
           color: #343434;
           margin-bottom: 5px;
-          line-height: 1.2;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          word-break: break-word;
         }
 
         .menu-item p {
@@ -190,6 +188,61 @@
           font-weight: bold;
           color: #cc2b73;
           letter-spacing: 0.5px;
+        }
+
+        .hidden {
+         display: none;
+        }
+
+       #cart-bar {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #0B0B24;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 40px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1000;
+       }
+
+        #cart-modal {
+         position: fixed;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         background: rgba(0,0,0,0.5);
+         display: none;
+         justify-content: center;
+         align-items: center;
+         z-index: 1100;
+        }
+
+        .cart-modal-content {
+         background: white;
+         padding: 20px;
+         border-radius: 20px;
+         width: 90%;
+         max-width: 400px;
+        }
+
+        #cart-modal:not(.hidden) {
+         display: flex;
+        }
+
+        .cart-modal-content {
+         background: white;
+         padding: 30px;
+         border-radius: 20px;
+         width: 90%;
+         max-width: 500px;
         }
     </style>
 </head>
@@ -231,6 +284,21 @@
     <div id="menu-container"></div>
 </div>
 
+<div id="cart-bar" class="hidden">
+    🛒 <span>Товары в корзине: <span id="cart-count">0</span></span>
+    <span>Сумма: <span id="cart-sum">0 ₽</span></span>
+</div>
+
+
+<div id="cart-modal" class="hidden">
+    <div class="cart-modal-content">
+        <h3>Корзина</h3>
+        <div id="cart-items"></div>
+        <div>Общая сумма: <span id="cart-total-sum">0 ₽</span></div>
+        <button onclick="closeCartModal()">Закрыть</button>
+    </div>
+</div>
+
 <script>
     const toggleButton = document.getElementById('toggle-button');
     const infoList = document.getElementById('info-list');
@@ -244,82 +312,119 @@
       avatar.style.display = isOpen ? 'none' : 'inline-block';
     });
 
+let cart = [];
+
+function addToCart(item) {
+  const existingItem = cart.find(cartItem => cartItem.id === item.id);
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({...item, quantity: 1});
+  }
+  updateCartDisplay();
+}
+
+function updateCartDisplay() {
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const cartSum = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  document.getElementById('cart-count').textContent = cartCount;
+  document.getElementById('cart-sum').textContent = `${cartSum} ₽`;
+
+  if (cartCount > 0) {
+    document.getElementById('cart-bar').classList.remove('hidden');
+  } else {
+    document.getElementById('cart-bar').classList.add('hidden');
+  }
+}
+
+document.addEventListener('click', function(event) {
+  const button = event.target.closest('.add-to-cart-btn');
+  if (button) {
+    const item = {
+      id: parseInt(button.getAttribute('data-id')), // Преобразуем id в число
+      name: button.getAttribute('data-name'),
+      price: parseFloat(button.getAttribute('data-price'))
+    };
+    addToCart(item);
+  }
+});
+
+
     function groupByCategory(items) {
-        return items.reduce((acc, currentItem) => {
-            const categoryName = currentItem.category || 'Без категории';
-            acc[categoryName] = [...(acc[categoryName] || []), currentItem];
-            return acc;
-        }, {});
+      return items.reduce((acc, currentItem) => {
+        const categoryName = currentItem.category || 'Без категории';
+        acc[categoryName] = [...(acc[categoryName] || []), currentItem];
+        return acc;
+      }, {});
     }
 
     function createCategorySection(categoryName, itemsInCategory) {
-        const sectionContainer = document.createElement('section');
-        sectionContainer.classList.add('category-section');
+      const sectionContainer = document.createElement('section');
+      sectionContainer.classList.add('category-section');
 
-        const header = document.createElement('h2');
-        header.textContent = categoryName;
-        sectionContainer.appendChild(header);
+      const header = document.createElement('h2');
+      header.textContent = categoryName;
+      sectionContainer.appendChild(header);
 
-        const menuGrid = document.createElement('div');
-        menuGrid.classList.add('menu-grid');
-        sectionContainer.appendChild(menuGrid);
+      const menuGrid = document.createElement('div');
+      menuGrid.classList.add('menu-grid');
+      sectionContainer.appendChild(menuGrid);
 
-        itemsInCategory.forEach(item => {
-            const itemCard = document.createElement('div');
-            itemCard.classList.add('menu-item');
+      itemsInCategory.forEach(item => {
+        const itemCard = document.createElement('div');
+        itemCard.classList.add('menu-item');
 
-            let imageUrl = item.image ? item.image : '/path/to/default-image.jpg';
+        let imageUrl = item.image ? item.image : '/path/to/default-image.jpg';
 
-            itemCard.innerHTML = `
-    <div class="image-wrapper">
-        <img src="${imageUrl}" alt="${item.name}" class="main-image">
-    </div>
-    <h3>${item.name}</h3>
-    <p>${item.description || ''}</p>
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <p class="price">Цена: ${item.price} ₽</p>
-        <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
-            <strong>Колво:</strong> ${item.pieces || '-'}
-            <br />
-            <strong>Вес:</strong> ${item.heft || '-'} ккал
-        </div>
-    </div>
-    `;
+        itemCard.innerHTML = `
+          <div class="image-wrapper">
+            <img src="${imageUrl}" alt="${item.name}" class="main-image">
+          </div>
+          <h3>${item.name}</h3>
+          <p>${item.description || 'Не указанно'}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <p class="price">Цена: ${item.price} ₽</p>
+            <button type="button" class="add-to-cart-btn" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">+</button>
+            <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
+              <strong>Колво:</strong> ${item.pieces || 'Не указанно'}
+              <br />
+              <strong>Вес:</strong> ${item.heft || 'Не указанно'} ккал
+            </div>
+          </div>
+        `;
 
-            menuGrid.appendChild(itemCard);
-        });
+        menuGrid.appendChild(itemCard);
+      });
 
-        return sectionContainer;
+      return sectionContainer;
     }
 
     function displayMenu(items) {
-        const groupedItems = groupByCategory(items);
-        const container = document.getElementById('menu-container');
-        container.innerHTML = '';
+      const groupedItems = groupByCategory(items);
+      const container = document.getElementById('menu-container');
+      container.innerHTML = '';
 
-        Object.keys(groupedItems).forEach(category => {
-            const categorySection = createCategorySection(category, groupedItems[category]);
-            container.appendChild(categorySection);
-        });
+      Object.keys(groupedItems).forEach(category => {
+        const categorySection = createCategorySection(category, groupedItems[category]);
+        container.appendChild(categorySection);
+      });
     }
 
     async function fetchItems() {
-        try {
-            const response = await fetch('/admin/items');
-            if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
+      try {
+        const response = await fetch('/admin/items');
+        if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
 
-            const items = await response.json();
-            displayMenu(items);
-        } catch (err) {
-            console.error("Ошибка:", err.message);
-        }
+        const items = await response.json();
+        displayMenu(items);
+      } catch (err) {
+        console.error("Ошибка:", err.message);
+      }
     }
 
-    fetchItems()
+    fetchItems();
 </script>
 
 </body>
 </html>
-
-
-

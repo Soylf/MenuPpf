@@ -36,14 +36,17 @@ public class ItemController {
         item.setDescription(description);
         item.setHeft(heft);
         item.setPieces(pieces);
-        item.setImage(imageFile.getBytes());
-        item.setImageFormat(imageFile.getContentType());
+        if (!imageFile.isEmpty()) {
+            item.setImage(imageFile.getBytes());
+            item.setImageFormat(imageFile.getContentType());
+        }
+
 
         service.save(item);
         return ResponseEntity.ok("Товар создан");
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<String> deleteItem(@RequestParam String name) {
         service.delete(name);
         return ResponseEntity.ok("Товар удалён");

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -28,12 +27,7 @@ public class Item {
     private String imageFormat;
 
     public String getImageFormat() {
-        if (image == null) {
-            return null;
-        }
-        if (imageFormat == null) {
-            imageFormat = "image/jpeg";
-        }
-        return imageFormat;
+        return (imageFormat != null) ? imageFormat : "image/jpeg";
     }
+
 }
