@@ -2,249 +2,13 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Меню</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-          margin: 0;
-          font-family: 'Playfair Display', serif;
-          background-color: #FDFDFD;
-          color: #1c1c1c;
-        }
-
-        .up-site {
-          text-align: center;
-          padding: 60px 30px;
-          background-color: #f8f8f8;
-        }
-
-        .up-site h1 {
-          color: #15154B;
-          font-size: 42px;
-          margin-bottom: 20px;
-        }
-
-        .up-description {
-          max-width: 800px;
-          margin: 0 auto;
-          font-size: 18px;
-          line-height: 1.7;
-          color: #444;
-        }
-
-        .section {
-          margin-top: 40px;
-          text-align: left;
-        }
-
-        .section-title-button {
-          display: flex;
-          align-items: center;
-          font-size: 24px;
-          color: #343434;
-          cursor: pointer;
-          user-select: none;
-          transition: color 0.3s ease;
-        }
-
-        .section-title-button:hover {
-          color: #cc2b73;
-        }
-
-       .image-wrapper {
-         position: relative;
-         display: inline-block;
-         margin-bottom: 20px;
-       }
-
-        .main-image {
-         width: 100%;
-         max-width: 1200px;
-         height: auto;
-         border-radius: 40px;
-        }
-
-        .avatar {
-          width: 32px;
-          height: 32px;
-          display: inline-block;
-          margin-right: 10px;
-        }
-
-        .emoji {
-          font-size: 24px;
-        }
-
-        .avatar {
-          display: none;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        .toggle-list {
-          display: none;
-          margin-top: 15px;
-          padding-left: 20px;
-        }
-
-        /* Вход в админку */
-        .admin-lock {
-          position: fixed;
-          top: 16px;
-          right: 16px;
-          z-index: 1000;
-          cursor: pointer;
-        }
-
-        .admin-lock img {
-          width: 32px;
-          height: 32px;
-          transition: transform 0.3s ease;
-        }
-
-        .admin-lock:hover img {
-          transform: scale(1.1);
-        }
-
-        /* Меню сайта */
-        .menu-site {
-          text-align: center;
-          padding: 60px 30px;
-          background-color: #FDFDFD;
-        }
-
-        .menu-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 20px;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-
-        .menu-item {
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 20px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          overflow: hidden;
-          position: relative;
-          z-index: 1;
-          max-weight: 150px;
-        }
-
-        .menu-item::before { /* Эффект подложки */
-         content: '';
-         position: absolute;
-         top: 0;
-         left: 0;
-         right: 0;
-         bottom: 0;
-         background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.05)), radial-gradient(circle at center, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
-         opacity: 0;
-         transition: opacity 0.3s cubic-bezier(.25,.8,.25,1);
-         pointer-events: none;
-         z-index: -1;
-        }
-
-        .menu-item:hover::before {
-         opacity: 1;
-        }
-
-        .menu-item:hover {
-          transform: scale(1.05);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .menu-item img {
-          width: 100%;
-          height: auto;
-          border-radius: 10px;
-          object-fit: cover;
-          margin-bottom: 15px;
-        }
-        .menu-item img:hover {
-         filter: brightness(1.1);
-         }
-
-        .menu-item h3 {
-          font-size: 18px;
-          color: #343434;
-          margin-bottom: 5px;
-          word-break: break-word;
-        }
-
-        .menu-item p {
-          font-size: 14px;
-          color: #666;
-          margin-bottom: 5px;
-          word-warp: break-word;
-        }
-
-        .menu-item .price {
-          font-size: 16px;
-          font-weight: bold;
-          color: #cc2b73;
-          letter-spacing: 0.5px;
-        }
-
-        .hidden {
-         display: none;
-        }
-
-       #cart-bar {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #0B0B24;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 40px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        z-index: 1000;
-       }
-
-        #cart-modal {
-         position: fixed;
-         top: 0;
-         left: 0;
-         right: 0;
-         bottom: 0;
-         background: rgba(0,0,0,0.5);
-         display: none;
-         justify-content: center;
-         align-items: center;
-         z-index: 1100;
-        }
-
-        .cart-modal-content {
-         background: white;
-         padding: 20px;
-         border-radius: 20px;
-         width: 90%;
-         max-width: 400px;
-        }
-
-        #cart-modal:not(.hidden) {
-         display: flex;
-        }
-
-        .cart-modal-content {
-         background: white;
-         padding: 30px;
-         border-radius: 20px;
-         width: 90%;
-         max-width: 500px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -267,7 +31,6 @@
         <div class="section">
             <div class="section-title-button" id="toggle-button">
                 <span class="emoji" id="emoji">⚫</span>
-                <img src="./imgIns/Для аватарки почему нас...png" alt="Шеф" class="avatar" id="avatar">
                 Почему выбирают нас?
             </div>
             <ul class="toggle-list" id="info-list">
@@ -284,147 +47,29 @@
     <div id="menu-container"></div>
 </div>
 
+
 <div id="cart-bar" class="hidden">
-    🛒 <span>Товары в корзине: <span id="cart-count">0</span></span>
-    <span>Сумма: <span id="cart-sum">0 ₽</span></span>
+    В корзине 🛒 x <span id="cart-count">0</span> | <span id="cart-sum">0 ₽</span>
 </div>
 
+
+<div id="cart-backdrop" class="hidden"></div>
 
 <div id="cart-modal" class="hidden">
     <div class="cart-modal-content">
         <h3>Корзина</h3>
+        <div id="pagination-controls">
+            <button id="prev-page" disabled>‹</button>
+            Страница <span id="current-page">1</span> из <span id="total-pages">1</span>
+            <button id="next-page" disabled>›</button>
+        </div>
         <div id="cart-items"></div>
         <div>Общая сумма: <span id="cart-total-sum">0 ₽</span></div>
         <button onclick="closeCartModal()">Закрыть</button>
     </div>
 </div>
 
-<script>
-    const toggleButton = document.getElementById('toggle-button');
-    const infoList = document.getElementById('info-list');
-    const emoji = document.getElementById('emoji');
-    const avatar = document.getElementById('avatar');
-
-    toggleButton.addEventListener('click', () => {
-      const isOpen = infoList.style.display === 'block';
-      infoList.style.display = isOpen ? 'none' : 'block';
-      emoji.style.display = isOpen ? 'inline-block' : 'none';
-      avatar.style.display = isOpen ? 'none' : 'inline-block';
-    });
-
-let cart = [];
-
-function addToCart(item) {
-  const existingItem = cart.find(cartItem => cartItem.id === item.id);
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.push({...item, quantity: 1});
-  }
-  updateCartDisplay();
-}
-
-function updateCartDisplay() {
-  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const cartSum = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-
-  document.getElementById('cart-count').textContent = cartCount;
-  document.getElementById('cart-sum').textContent = `${cartSum} ₽`;
-
-  if (cartCount > 0) {
-    document.getElementById('cart-bar').classList.remove('hidden');
-  } else {
-    document.getElementById('cart-bar').classList.add('hidden');
-  }
-}
-
-document.addEventListener('click', function(event) {
-  const button = event.target.closest('.add-to-cart-btn');
-  if (button) {
-    const item = {
-      id: parseInt(button.getAttribute('data-id')), // Преобразуем id в число
-      name: button.getAttribute('data-name'),
-      price: parseFloat(button.getAttribute('data-price'))
-    };
-    addToCart(item);
-  }
-});
-
-
-    function groupByCategory(items) {
-      return items.reduce((acc, currentItem) => {
-        const categoryName = currentItem.category || 'Без категории';
-        acc[categoryName] = [...(acc[categoryName] || []), currentItem];
-        return acc;
-      }, {});
-    }
-
-    function createCategorySection(categoryName, itemsInCategory) {
-      const sectionContainer = document.createElement('section');
-      sectionContainer.classList.add('category-section');
-
-      const header = document.createElement('h2');
-      header.textContent = categoryName;
-      sectionContainer.appendChild(header);
-
-      const menuGrid = document.createElement('div');
-      menuGrid.classList.add('menu-grid');
-      sectionContainer.appendChild(menuGrid);
-
-      itemsInCategory.forEach(item => {
-        const itemCard = document.createElement('div');
-        itemCard.classList.add('menu-item');
-
-        let imageUrl = item.image ? item.image : '/path/to/default-image.jpg';
-
-        itemCard.innerHTML = `
-          <div class="image-wrapper">
-            <img src="${imageUrl}" alt="${item.name}" class="main-image">
-          </div>
-          <h3>${item.name}</h3>
-          <p>${item.description || 'Не указанно'}</p>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <p class="price">Цена: ${item.price} ₽</p>
-            <button type="button" class="add-to-cart-btn" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">+</button>
-            <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
-              <strong>Колво:</strong> ${item.pieces || 'Не указанно'}
-              <br />
-              <strong>Вес:</strong> ${item.heft || 'Не указанно'} ккал
-            </div>
-          </div>
-        `;
-
-        menuGrid.appendChild(itemCard);
-      });
-
-      return sectionContainer;
-    }
-
-    function displayMenu(items) {
-      const groupedItems = groupByCategory(items);
-      const container = document.getElementById('menu-container');
-      container.innerHTML = '';
-
-      Object.keys(groupedItems).forEach(category => {
-        const categorySection = createCategorySection(category, groupedItems[category]);
-        container.appendChild(categorySection);
-      });
-    }
-
-    async function fetchItems() {
-      try {
-        const response = await fetch('/admin/items');
-        if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
-
-        const items = await response.json();
-        displayMenu(items);
-      } catch (err) {
-        console.error("Ошибка:", err.message);
-      }
-    }
-
-    fetchItems();
-</script>
+<script src="./js/app.js"></script>
 
 </body>
 </html>
