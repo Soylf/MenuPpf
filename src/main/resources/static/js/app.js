@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let cart = [];
+
   function groupByCategory(items) {
     return items.reduce((acc, currentItem) => {
       const categoryName = currentItem.category || 'Без категории';
@@ -74,10 +76,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const items = await response.json();
       displayMenu(items);
+      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                      button.addEventListener('click', () => {
+                          const itemId = button.getAttribute('data-id');
+                          const itemName = button.getAttribute('data-name');
+                          const itemPrice = parseFloat(button.getAttribute('data-price'));
+
+                          // Проверяем, есть ли уже такой товар в корзине
+                          const existingItem = cart.find(item => item.id === itemId);
+
+                          if (existingItem) {
+                              existingItem.quantity++;
+                          } else {
+                              cart.push({ id: itemId, name: itemName, price: itemPrice, quantity: 1 });
+                          }
+
+                          updateCart();
+                      });
+                  });
     } catch (err) {
       console.error("Ошибка:", err.message);
     }
   }
 
-  fetchItems();
+function updateCart() {
+        const cartCount = document.getElementById('cart-count');
+        const cartSum = document.getElementById('cart-sum');
+
+        let totalQuantity = 0;
+        let totalPrice = 0;
+
+        cart.forEach(item => {
+            totalQuantity += item.quantity;
+            totalPrice += item.price * item.quantity;
+        });
+
+        cartCount.textContent = totalQuantity;
+        cartSum.textContent = totalPrice + ' ₽';
+    }
+
+    fetchItems();
 });
