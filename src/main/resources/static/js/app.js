@@ -1,18 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-  const toggleButton = document.getElementById('toggle-button');
-  const infoList = document.getElementById('info-list');
-  const emoji = document.getElementById('emoji');
-  const avatar = document.getElementById('avatar');
-
-  toggleButton.addEventListener('click', () => {
-    const isOpen = infoList.style.display === 'block';
-    infoList.style.display = isOpen ? 'none' : 'block';
-    emoji.style.display = isOpen ? 'inline-block' : 'none';
-    avatar.style.display = isOpen ? 'none' : 'inline-block';
-  });
-
-
   function groupByCategory(items) {
     return items.reduce((acc, currentItem) => {
       const categoryName = currentItem.category || 'Без категории';

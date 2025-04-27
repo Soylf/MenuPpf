@@ -52,22 +52,38 @@
     В корзине 🛒 x <span id="cart-count">0</span> | <span id="cart-sum">0 ₽</span>
 </div>
 
-
 <div id="cart-backdrop" class="hidden"></div>
-
 <div id="cart-modal" class="hidden">
-    <div class="cart-modal-content">
-        <h3>Корзина</h3>
-        <div id="pagination-controls">
-            <button id="prev-page" disabled>‹</button>
-            Страница <span id="current-page">1</span> из <span id="total-pages">1</span>
-            <button id="next-page" disabled>›</button>
+    <div class="cart-header">
+        <h2>Моя корзина</h2>
+        <button id="close-cart" class="close-btn">×</button>
+        <p id="cart-count-items"></p>
+    </div>
+
+    <div id="cart-items-container" class="cart-items"></div>
+
+    <div class="cart-footer">
+        <div class="cart-total">
+            Сумма заказа: <span id="cart-total-sum">0 ₽</span>
         </div>
-        <div id="cart-items"></div>
-        <div>Общая сумма: <span id="cart-total-sum">0 ₽</span></div>
-        <button onclick="closeCartModal()">Закрыть</button>
+        <div id="pagination" class="pagination"></div>
     </div>
 </div>
+
+<script>
+    const toggleButton = document.getElementById('toggle-button');
+    const infoList = document.getElementById('info-list');
+    const emoji = document.getElementById('emoji');
+    const avatar = document.getElementById('avatar');
+
+    toggleButton.addEventListener('click', () => {
+        const isOpen = infoList.style.display === 'block';
+        infoList.style.display = isOpen ? 'none' : 'block';
+        emoji.style.display = isOpen ? 'inline-block' : 'none';
+        avatar.style.display = isOpen ? 'none' : 'inline-block';
+    });
+</script>
+
 
 <script src="./js/app.js"></script>
 
