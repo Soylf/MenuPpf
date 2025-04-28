@@ -118,39 +118,66 @@ document.addEventListener('DOMContentLoaded', () => {
           cartSum.textContent = totalPrice + ' ₽';
       }
 
-      function renderCartModal() {
-                  const cartItemsContainer = document.getElementById('cart-items-container');
-                  const cartCountItems = document.getElementById('cart-count-items');
-                  const cartTotalSum = document.getElementById('cart-total-sum');
+      function renderCartModal(page = 1) {
+          const itemsPerPage = 4;
+          const startIndex = (page - 1) * itemsPerPage;
+          const endIndex = startIndex + itemsPerPage;
+          const paginatedItems = cart.slice(startIndex, endIndex);
 
-                  cartItemsContainer.innerHTML = '';
+          const cartItemsContainer = document.getElementById('cart-items-container');
+          const cartCountItems = document.getElementById('cart-count-items');
+          const cartTotalSum = document.getElementById('cart-total-sum');
+          const paginationContainer = document.getElementById('pagination');
 
-                  let totalQuantity = 0;
-                  let totalPrice = 0;
+          cartItemsContainer.innerHTML = '';
+          paginationContainer.innerHTML = '';
 
-                  cart.forEach(item => {
-                      totalQuantity += item.quantity;
-                      totalPrice += item.price * item.quantity;
+          let totalQuantity = 0;
+          let totalPrice = 0;
 
-                      const itemDiv = document.createElement('div');
-                      itemDiv.classList.add('cart-item');
+          cart.forEach(item => {
+              totalQuantity += item.quantity;
+              totalPrice += item.price * item.quantity;
+          });
 
-                      itemDiv.innerHTML = `
-                          <div class="cart-item-details">
-                              <img src="${item.image}" alt="${item.name}" width="80"/>
-                              <div class="item-info">
-                                  <h3>${item.name} × ${item.quantity}</h3>
-                                  <p>Цена: ${item.price} ₽</p>
-                                  <p> Общая цена: ${item.price * item.quantity} ₽ </p>
-                              </div>
-                          </div>
-                      `;
+          paginatedItems.forEach(item => {
+              const itemDiv = document.createElement('div');
+              itemDiv.classList.add('cart-item');
 
-                      cartItemsContainer.appendChild(itemDiv);
-                  });
-                  cartCountItems.textContent = `${totalQuantity}`;
-                  cartTotalSum.textContent = `${totalPrice.toFixed(2)} ₽`;
+              itemDiv.innerHTML = `
+                  <div class="cart-item-details">
+                      <img src="${item.image}" alt="${item.name}" width="80"/>
+                      <div class="item-info">
+                          <h3>${item.name} × ${item.quantity}</h3>
+                          <p>Цена: ${item.price} ₽</p>
+                          <p>Общая цена: ${item.price * item.quantity} ₽</p>
+                      </div>
+                  </div>
+              `;
+
+              cartItemsContainer.appendChild(itemDiv);
+          });
+
+          cartCountItems.textContent = `${totalQuantity}`;
+          cartTotalSum.textContent = `${totalPrice.toFixed(2)} ₽`;
+
+          const totalPages = Math.ceil(cart.length / itemsPerPage);
+
+          for (let i = 1; i <= totalPages; i++) {
+              const pageButton = document.createElement('button');
+              pageButton.textContent = i;
+              if (i === page) {
+                  pageButton.classList.add('active');
+              }
+
+              pageButton.addEventListener('click', () => {
+                  renderCartModal(i);
+              });
+
+              paginationContainer.appendChild(pageButton);
+          }
       }
+
 
     fetchItems();
 });
