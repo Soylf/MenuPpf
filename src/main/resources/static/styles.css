@@ -217,12 +217,6 @@ body {
   margin-bottom: 5px;
 }
 
-#cart-count-items {
-  font-size: 14px;
-  color: gray;
-  margin-bottom: 20px;
-}
-
 .cart-item {
   display: flex;
   align-items: center;
@@ -353,16 +347,38 @@ body {
   font-weight: bold;
 }
 
-/* Появление корзины */
 #cart-backdrop.show,
 #cart-modal.show {
     display: block;
     opacity: 1;
 }
 
-/* Закрытие корзины */
 #cart-backdrop.hide,
 #cart-modal.hide {
     opacity: 0;
     display: none;
+}
+
+.cart-item-details {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-info {
+    text-align: left;
+}
+
+.item-info h3, .item-info p {
+    margin: 0;
+}
+
+.cart-item img {
+    height: auto;
+    width: 80px;
+    border-radius: 4px;
+}
+
+.item-info h3 {
+    font-weight: bold;
 }

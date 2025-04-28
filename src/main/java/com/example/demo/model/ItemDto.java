@@ -8,6 +8,7 @@ import java.util.Base64;
 @Data
 @NoArgsConstructor
 public class ItemDto {
+    private Long id;
     private String name;
     private String price;
     private String description;
@@ -18,6 +19,7 @@ public class ItemDto {
     private String imageMimeType;
 
     public ItemDto(Item item) {
+        this.id = item.getId();
         this.name = item.getName();
         this.description = item.getDescription();
         this.price = item.getPrice();
