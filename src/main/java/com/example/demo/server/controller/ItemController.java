@@ -4,6 +4,7 @@ import com.example.demo.model.Item;
 import com.example.demo.model.ItemDto;
 import com.example.demo.server.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,12 +14,13 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/admin/items")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
+@Log4j2
 public class ItemController {
     private final ItemService service;
 
-    @PostMapping
+    @PostMapping("/items")
     public ResponseEntity<String> saveItem(
             @RequestParam String name,
             @RequestParam String price,
@@ -46,14 +48,34 @@ public class ItemController {
         return ResponseEntity.ok("Товар создан");
     }
 
-    @DeleteMapping
+    @DeleteMapping("/items")
     public ResponseEntity<String> deleteItem(@RequestParam String name) {
         service.delete(name);
         return ResponseEntity.ok("Товар удалён");
     }
 
-    @GetMapping
+    @GetMapping("/items")
     public List<ItemDto> getAllItems() {
         return service.getAll();
+    }
+
+    //Бесполезно через service, но хоть красиво ^^
+    @PostMapping("/save-options/bot")
+    public ResponseEntity<String> saveOptionsBot(@RequestParam String botName,
+                                              @RequestParam String botToken) {
+        service.saveOptionsBot(botName, botToken);
+        return ResponseEntity.ok("Настройки сохранены!");
+    }
+
+    @PostMapping("/save-options/pay-num")
+    public ResponseEntity<String> saveOptionsPayNum(@RequestParam String payNum) {
+        log.info(payNum);
+        service.saveOptionsPayNum(payNum);
+        return ResponseEntity.ok("Настройки сохранены!");
+    }
+
+    @GetMapping("/save-options/pay-num")
+    public String saveOptionsPayNum() {
+        return service.getOptionsPayNum();
     }
 }

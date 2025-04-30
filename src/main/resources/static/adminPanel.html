@@ -80,6 +80,39 @@
     <div class="notification-progress"></div>
 </div>
 
+<div id="cart-bar">⚫</div>
+
+<div id="cart-backdrop" class="hidden"></div>
+<div id="cart-modal" class="hidden">
+    <h2>Настройки Telegram-бота</h2>
+    <button id="close-cart" class="close-btn">×</button>
+
+    <div class="form-group">
+        <label for="bot-name">Имя бота:</label>
+        <input type="text" id="bot-name" name="bot-name" placeholder="Введите имя бота">
+    </div>
+
+    <div class="form-group">
+        <label for="bot-token">Токен бота:</label>
+        <input type="text" id="bot-token" name="bot-token" placeholder="Введите токен бота">
+    </div>
+
+    <button type="submit" id="save-bot-btn" class="btn btn-bot">
+        <span>Сохранить данные</span>
+    </button>
+
+    <h2>Параметры оплаты</h2>
+
+    <div class="form-group">
+        <label for="pay-num">Номер счёта:</label>
+        <input type="text" id="pay-num" name="pay-num" placeholder="Введите номер счёта">
+    </div>
+
+    <button type="submit" id="save-pay-num-btn" class="btn btn-pay-num">
+        <span>Сохранить номер</span>
+    </button>
+</div>
+
 <script>
     function previewImage(event) {
         const input = event.target;
@@ -97,6 +130,7 @@
         }
     }
 </script>
+<script src="js/cart-modal-open-close-admin.js"></script>
 <script src="./js/adminApp.js"></script>
 
 </body>

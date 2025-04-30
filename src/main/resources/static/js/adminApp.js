@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalBtnText = submitBtn.innerHTML;
 
         try {
-            // Показываем состояние загрузки
             submitBtn.innerHTML = '<span>Сохранение...</span>';
             submitBtn.disabled = true;
 
@@ -42,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 const message = await response.text();
+                submitBtn.innerHTML = originalBtnText;
+                            submitBtn.disabled = false;
                 showNotification('Успех!', message);
                 this.reset();
                 document.getElementById('preview').style.display = 'none';
@@ -52,9 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             showNotification('Ошибка!', 'Ошибка сети: ' + error.message, true);
-        } finally {
-            submitBtn.innerHTML = originalBtnText;
-            submitBtn.disabled = false;
         }
     });
 
@@ -69,24 +67,97 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.innerHTML = '<span>Удаление...</span>';
             submitBtn.disabled = true;
 
-            const response = await fetch('/admin/items/delete', {
-                method: 'POST',
+            const response = await fetch('/admin/items', {
+                method: 'DELETE',
                 body: formData
             });
 
             if (response.ok) {
                 const message = await response.text();
+                submitBtn.innerHTML = originalBtnText;
+                            submitBtn.disabled = false;
                 showNotification('Успех!', message);
                 this.reset();
             } else {
                 const error = await response.text();
+                submitBtn.innerHTML = originalBtnText;
+                            submitBtn.disabled = false;
                 showNotification('Ошибка!', error || 'Ошибка при удалении товара', true);
             }
         } catch (error) {
             showNotification('Ошибка!', 'Ошибка сети: ' + error.message, true);
-        } finally {
-            submitBtn.innerHTML = originalBtnText;
-            submitBtn.disabled = false;
         }
     });
-});
+
+    document.getElementById('save-bot-btn').addEventListener('click', async function(e) {
+            e.preventDefault();
+
+            const botName = document.getElementById('bot-name').value;
+            const botToken = document.getElementById('bot-token').value;
+
+            try {
+                const submitBtn = this;
+                const originalBtnText = submitBtn.innerHTML;
+
+                submitBtn.innerHTML = '<span>Сохранение...</span>';
+                submitBtn.disabled = true;
+
+                const response = await fetch('/admin/save-options/bot', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        botName: botName,
+                        botToken: botToken
+                    })
+                });
+
+                if (response.ok) {
+                    const message = await response.text();
+                    submitBtn.innerHTML = originalBtnText;
+                                    submitBtn.disabled = false;
+                    showNotification('Успех!', message);
+                } else {
+                    const error = await response.text();
+                    submitBtn.innerHTML = originalBtnText;
+                                    submitBtn.disabled = false;
+                    showNotification('Ошибка!', error || 'Ошибка при сохранении данных', true);
+                }
+            } catch (error) {
+                showNotification('Ошибка!', 'Ошибка сети: ' + error.message, true);
+            }
+        });
+
+        document.getElementById('save-pay-num-btn').addEventListener('click', async function(e) {
+            e.preventDefault();
+
+            const payNum = document.getElementById('pay-num').value;
+
+            try {
+                const submitBtn = this;
+                const originalBtnText = submitBtn.innerHTML;
+
+                submitBtn.innerHTML = '<span>Сохранение...</span>';
+                submitBtn.disabled = true;
+
+                const response = await fetch('/admin/save-options/pay-num', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        payNum: payNum
+                    })
+                });
+
+                if (response.ok) {
+                    const message = await response.text();
+                    submitBtn.innerHTML = originalBtnText;
+                                    submitBtn.disabled = false;
+                    showNotification('Успех!', message);
+                } else {
+                    const error = await response.text();
+                    submitBtn.innerHTML = originalBtnText;
+                                    submitBtn.disabled = false;
+                    showNotification('Ошибка!', error || 'Ошибка при сохранении номера', true);
+                }
+            } catch (error) {
+                showNotification('Ошибка!', 'Ошибка сети: ' + error.message, true);
+            }
+        });
+    });

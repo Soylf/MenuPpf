@@ -10,10 +10,3 @@ CREATE TABLE IF NOT EXISTS Items
     image        BYTEA,
     image_format VARCHAR(50)
 );
-
-CREATE TABLE IF NOT EXISTS options_site (
-    id INT PRIMARY KEY,
-    bot_name VARCHAR(255),
-    bot_token VARCHAR(255),
-    pay_num VARCHAR(255)
-);
