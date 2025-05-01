@@ -1,5 +1,6 @@
 package com.example.demo.server.service;
 
+import com.example.demo.api.config.BotConfig;
 import com.example.demo.model.Item;
 import com.example.demo.model.ItemDto;
 import com.example.demo.model.OptionsSite;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService{
+    private final BotConfig botConfig;
     private final ItemRepository repository;
     private final OptionsSite optionsSite;
 
@@ -41,8 +43,7 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public void saveOptionsBot(String botName, String botToken) {
-        optionsSite.setBotName(botName);
-        optionsSite.setBotToken(botToken);
+        botConfig.updateBotConfig(botName, botToken);
     }
 
     @Override

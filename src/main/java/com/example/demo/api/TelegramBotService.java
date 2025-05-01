@@ -1,25 +1,26 @@
 package com.example.demo.api;
 
-import lombok.AllArgsConstructor;
+import com.example.demo.api.config.BotConfig;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
-@AllArgsConstructor
 public class TelegramBotService extends TelegramLongPollingBot {
+    private final BotConfig botConfig;
 
-    private final String botUsername;
-    private final String botToken;
+    public TelegramBotService(BotConfig botConfig) {
+        this.botConfig = botConfig;
+    }
 
     @Override
     public String getBotUsername() {
-        return botUsername;
+        return botConfig.getBotName();
     }
 
     @Override
     public String getBotToken() {
-        return botToken;
+        return botConfig.getToken();
     }
 
     @Override

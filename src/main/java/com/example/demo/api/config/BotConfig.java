@@ -1,40 +1,18 @@
 package com.example.demo.api.config;
 
-import com.example.demo.api.TelegramBotService;
-import com.example.demo.model.OptionsSite;
-import jakarta.annotation.PostConstruct;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import lombok.Setter;
+import org.springframework.context.annotation.Configuration;
 
-@Component
-@RequiredArgsConstructor
+@Setter
+@Getter
+@Configuration
 public class BotConfig {
+    private String botName = "TestBot";
+    private String token = "TestBotToken";
 
-    private final OptionsSite optionsSite;
-    private final TelegramBotsApi telegramBotsApi;
-
-    @Getter
-    private TelegramBotService botInstance;
-
-    @PostConstruct
-    public void initBot() throws TelegramApiException {
-        registerBot();
-    }
-
-    private void registerBot() throws TelegramApiException {
-        botInstance = new TelegramBotService(
-                optionsSite.getBotName(),
-                optionsSite.getBotToken()
-        );
-        telegramBotsApi.registerBot(botInstance);
-        System.out.println("✅ Бот зарегистрирован: " + botInstance.getBotUsername());
-    }
-
-    public void reloadBot() throws TelegramApiException {
-        registerBot();
-        System.out.println("♻️ Бот переинициализирован");
+    public void updateBotConfig(String botName, String token) {
+        this.botName = botName;
+        this.token = token;
     }
 }
