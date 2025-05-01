@@ -68,40 +68,118 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchItems() {
-    try {
-      const response = await fetch('/admin/items');
-      if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
+      try {
+          const response = await fetch('/admin/items');
+          if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
 
-      const items = await response.json();
-      displayMenu(items);
-      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-            button.addEventListener('click', () => {
-               const itemId = button.getAttribute('data-id');
-               const itemName = button.getAttribute('data-name');
-               const itemPrice = parseFloat(button.getAttribute('data-price'));
-               const itemImage = button.getAttribute('data-image');
+          const items = await response.json();
+          displayMenu(items);
 
-               const existingItemIndex = cart.findIndex(item => item.id === itemId);
+          document.querySelectorAll('.menu-item').forEach(item => {
+              item.addEventListener('click', (event) => {
+                  event.preventDefault();
 
-                if (existingItemIndex !== -1) {
-                  cart[existingItemIndex].quantity++;
-                } else {
-                     cart.push({
-                        id: itemId,
-                        name: itemName,
-                        price: itemPrice,
-                        quantity: 1,
-                        image: itemImage
-                     });
-                }
-                updateCart();
-                renderCartModal();
-           });
-      });
-    } catch (err) {
-      console.error("Ошибка:", err.message);
-    }
+                  const target = event.target.closest('.menu-item');
+                  const productData = {
+                      id: target.dataset.id,
+                      name: target.querySelector('h3').innerText,
+                      description: target.querySelector('p').innerText,
+                      price: parseFloat(target.querySelector('.price').innerText.split(':')[1]),
+                      image: target.querySelector('.main-image').src
+                  };
+
+                  showPopup(productData);
+              });
+          });
+
+          document.querySelector('#product-popup .add-to-cart-from-popup').addEventListener('click', addToCartFromPopup);
+
+          document.body.addEventListener('click', (event) => {
+              if(event.target.matches('#product-popup')) {
+                  hidePopup();
+              }
+          });
+
+          document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+              button.addEventListener('click', () => {
+                  const itemId = button.getAttribute('data-id');
+                  const itemName = button.getAttribute('data-name');
+                  const itemPrice = parseFloat(button.getAttribute('data-price'));
+                  const itemImage = button.getAttribute('data-image');
+
+                  const existingItemIndex = cart.findIndex(item => item.id === itemId);
+
+                  if (existingItemIndex !== -1) {
+                      cart[existingItemIndex].quantity++;
+                  } else {
+                      cart.push({
+                          id: itemId,
+                          name: itemName,
+                          price: itemPrice,
+                          quantity: 1,
+                          image: itemImage
+                      });
+                  }
+                  updateCart();
+                  renderCartModal();
+              });
+          });
+      } catch (err) {
+          console.error("Ошибка:", err.message);
+      }
   }
+
+  function showPopup(data) {
+      const popup = document.getElementById('product-popup');
+      const overlay = document.getElementById('overlay');
+      const content = popup.querySelector('.popup-content');
+
+      content.querySelector('h3').textContent = data.name;
+      content.querySelector('p').textContent = data.description;
+      content.querySelector('.popup-price').textContent = data.price;
+      content.querySelector('.popup-image').setAttribute('src', data.image);
+
+      popup.classList.remove('hidden');
+      overlay.classList.remove('hidden');
+  }
+
+  function hidePopup() {
+      const popup = document.getElementById('product-popup');
+      const overlay = document.getElementById('overlay');
+      popup.classList.add('hidden');
+      overlay.classList.add('hidden');
+  }
+
+  document.querySelector('#product-popup .close-btn').addEventListener('click', hidePopup);
+
+  document.body.addEventListener('click', (event) => {
+      if(event.target.matches('#product-popup') || event.target.matches('#overlay')) {
+          hidePopup();
+      }
+  });
+
+  function addToCartFromPopup() {
+      const popup = document.getElementById('product-popup');
+      const content = popup.querySelector('.popup-content');
+
+      const itemId = content.querySelector('h3').dataset.id;
+      const itemName = content.querySelector('h3').textContent;
+      const itemPrice = parseFloat(content.querySelector('.popup-price').textContent);
+      const itemImage = content.querySelector('.popup-image').src;
+
+      const existingItemIndex = cart.findIndex(item => item.id === itemId);
+
+      if (existingItemIndex !== -1) {
+          cart[existingItemIndex].quantity++;
+      } else {
+          cart.push({id: itemId, name: itemName, price: itemPrice, quantity: 1, image: itemImage});
+      }
+
+      updateCart();
+      renderCartModal();
+      hidePopup();
+  }
+
   function updateCart() {
           const cartCount = document.getElementById('cart-count');
           const cartSum = document.getElementById('cart-sum');
