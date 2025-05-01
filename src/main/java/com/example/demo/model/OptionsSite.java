@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class OptionsSite {
-    private String botName;
-    private String botToken;
+    private String botName = "YouBot";
+    private String botToken = "YouBotToken";
     private String payNum;
 }
