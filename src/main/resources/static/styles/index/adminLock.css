@@ -1,0 +1,25 @@
+.admin-lock {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.admin-lock img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .admin-lock img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.admin-lock:hover img {
+  transform: scale(1.1);
+}

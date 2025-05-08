@@ -50,4 +50,9 @@ public class ItemServiceImpl implements ItemService{
     public String getOptionsPayNum() {
         return optionsSite.getPayNum();
     }
+
+    @Override
+    public List<String> getAllCategory() {
+        return repository.findAllByCategory();
+    }
 }

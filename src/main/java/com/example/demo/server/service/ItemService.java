@@ -13,4 +13,5 @@ public interface ItemService {
     void saveOptionsPayNum(String payNum);
     void saveOptionsBot(String botName, String botToken);
     String getOptionsPayNum();
+    List<String> getAllCategory();
 }

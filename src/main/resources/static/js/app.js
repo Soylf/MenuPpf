@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     itemsInCategory.forEach(item => {
       const itemCard = document.createElement('div');
       itemCard.classList.add('menu-item');
+      itemCard.dataset.id = item.id;
 
       let imageUrl = item.image ? item.image : '/path/to/default-image.jpg';
 
@@ -31,17 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="image-wrapper">
           <img src="${imageUrl}" alt="${item.name}" class="main-image">
         </div>
-
         <h3>${item.name}</h3>
-        <p>${item.description || 'Не указанно'}</p>
-
+        <p class="hidden-description">${item.description || 'Не указанно'}</p>
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <p class="price">Цена: ${item.price} ₽</p>
-
-          <button type="button" class="add-to-cart-btn" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" data-image="${item.image}">
-              <span class="plus-sign">+</span>
-          </button>
-
           <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
             <strong>Кол-во:</strong> ${item.pieces || 'Не указанно'}
             <br />
@@ -91,57 +85,49 @@ document.addEventListener('DOMContentLoaded', () => {
                   showPopup(productData);
               });
           });
-
-          document.querySelector('#product-popup .add-to-cart-from-popup').addEventListener('click', addToCartFromPopup);
-
-          document.body.addEventListener('click', (event) => {
-              if(event.target.matches('#product-popup')) {
-                  hidePopup();
-              }
-          });
-
-          document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-              button.addEventListener('click', () => {
-                  const itemId = button.getAttribute('data-id');
-                  const itemName = button.getAttribute('data-name');
-                  const itemPrice = parseFloat(button.getAttribute('data-price'));
-                  const itemImage = button.getAttribute('data-image');
-
-                  const existingItemIndex = cart.findIndex(item => item.id === itemId);
-
-                  if (existingItemIndex !== -1) {
-                      cart[existingItemIndex].quantity++;
-                  } else {
-                      cart.push({
-                          id: itemId,
-                          name: itemName,
-                          price: itemPrice,
-                          quantity: 1,
-                          image: itemImage
-                      });
-                  }
-                  updateCart();
-                  renderCartModal();
-              });
-          });
       } catch (err) {
           console.error("Ошибка:", err.message);
       }
   }
 
-  function showPopup(data) {
-      const popup = document.getElementById('product-popup');
-      const overlay = document.getElementById('overlay');
-      const content = popup.querySelector('.popup-content');
+function showPopup(data) {
+    const popup   = document.getElementById('product-popup');
+    const overlay = document.getElementById('overlay');
+    const content = popup.querySelector('.popup-content');
+    const button  = content.querySelector('.add-to-cart-from-popup');
 
-      content.querySelector('h3').textContent = data.name;
-      content.querySelector('p').textContent = data.description;
-      content.querySelector('.popup-price').textContent = data.price;
-      content.querySelector('.popup-image').setAttribute('src', data.image);
+    content.querySelector('.name').textContent        = data.name;
+    content.querySelector('.description').textContent = data.description;
+    content.querySelector('.popup-price').textContent = data.price;
+    content.querySelector('.popup-image').src         = data.image;
 
-      popup.classList.remove('hidden');
-      overlay.classList.remove('hidden');
-  }
+    button.dataset.id    = data.id;
+    button.dataset.name  = data.name;
+    button.dataset.price = data.price;
+    button.dataset.image = data.image;
+
+    button.onclick = () => {
+        const itemId    = button.dataset.id;
+        const itemName  = button.dataset.name;
+        const itemPrice = parseFloat(button.dataset.price);
+        const itemImage = button.dataset.image;
+
+        const idx = cart.findIndex(i => i.id === itemId);
+        if (idx !== -1) {
+            cart[idx].quantity++;
+        } else {
+            cart.push({ id: itemId, name: itemName, price: itemPrice, quantity: 1, image: itemImage });
+        }
+
+        updateCart();
+        renderCartModal();
+        hidePopup();
+    };
+
+    popup.classList.remove('hidden');
+    overlay.classList.remove('hidden');
+}
+
 
   function hidePopup() {
       const popup = document.getElementById('product-popup');
@@ -157,28 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
           hidePopup();
       }
   });
-
-  function addToCartFromPopup() {
-      const popup = document.getElementById('product-popup');
-      const content = popup.querySelector('.popup-content');
-
-      const itemId = content.querySelector('h3').dataset.id;
-      const itemName = content.querySelector('h3').textContent;
-      const itemPrice = parseFloat(content.querySelector('.popup-price').textContent);
-      const itemImage = content.querySelector('.popup-image').src;
-
-      const existingItemIndex = cart.findIndex(item => item.id === itemId);
-
-      if (existingItemIndex !== -1) {
-          cart[existingItemIndex].quantity++;
-      } else {
-          cart.push({id: itemId, name: itemName, price: itemPrice, quantity: 1, image: itemImage});
-      }
-
-      updateCart();
-      renderCartModal();
-      hidePopup();
-  }
 
   function updateCart() {
           const cartCount = document.getElementById('cart-count');
@@ -196,65 +160,65 @@ document.addEventListener('DOMContentLoaded', () => {
           cartSum.textContent = totalPrice + ' ₽';
       }
 
-      function renderCartModal(page = 1) {
-          const itemsPerPage = 4;
-          const startIndex = (page - 1) * itemsPerPage;
-          const endIndex = startIndex + itemsPerPage;
-          const paginatedItems = cart.slice(startIndex, endIndex);
+     function renderCartModal(page = 1) {
+         const itemsPerPage = 4;
+         const startIndex = (page - 1) * itemsPerPage;
+         const endIndex = startIndex + itemsPerPage;
+         const paginatedItems = cart.slice(startIndex, endIndex);
 
-          const cartItemsContainer = document.getElementById('cart-items-container');
-          const cartCountItems = document.getElementById('cart-count-items');
-          const cartTotalSum = document.getElementById('cart-total-sum');
-          const paginationContainer = document.getElementById('pagination');
+         const cartItemsContainer = document.getElementById('cart-items-container');
+         const cartCountItems = document.getElementById('cart-count-items');
+         const cartTotalSum = document.getElementById('cart-total-sum');
+         const paginationContainer = document.getElementById('pagination');
 
-          cartItemsContainer.innerHTML = '';
-          paginationContainer.innerHTML = '';
+         cartItemsContainer.innerHTML = '';
+         paginationContainer.innerHTML = '';
 
-          let totalQuantity = 0;
-          let totalPrice = 0;
+         let totalQuantity = 0;
+         let totalPrice = 0;
 
-          cart.forEach(item => {
-              totalQuantity += item.quantity;
-              totalPrice += item.price * item.quantity;
-          });
+         cart.forEach(item => {
+             totalQuantity += item.quantity;
+             totalPrice += item.price * item.quantity;
+         });
 
-          paginatedItems.forEach(item => {
-              const itemDiv = document.createElement('div');
-              itemDiv.classList.add('cart-item');
+         paginatedItems.forEach(item => {
+             const itemDiv = document.createElement('div');
+             itemDiv.classList.add('cart-item');
 
-              itemDiv.innerHTML = `
-                  <div class="cart-item-details">
-                      <img src="${item.image}" alt="${item.name}" width="80"/>
-                      <div class="item-info">
-                          <h3>${item.name} × ${item.quantity}</h3>
-                          <p>Цена: ${item.price} ₽</p>
-                          <p>Общая цена: ${item.price * item.quantity} ₽</p>
-                      </div>
-                  </div>
-              `;
+             itemDiv.innerHTML = `
+                 <div class="cart-item-details">
+                     <img src="${item.image}" alt="${item.name}" width="80"/>
+                     <div class="item-info">
+                         <h3>${item.name} × ${item.quantity}</h3>
+                         <p>Цена: ${item.price} ₽</p>
+                         <p>Общая цена: ${item.price * item.quantity} ₽</p>
+                     </div>
+                 </div>
+             `;
 
-              cartItemsContainer.appendChild(itemDiv);
-          });
+             cartItemsContainer.appendChild(itemDiv);
+         });
 
-          cartCountItems.textContent = `${totalQuantity}`;
-          cartTotalSum.textContent = `${totalPrice.toFixed(2)} ₽`;
+         cartCountItems.textContent = `${totalQuantity}`;
+         cartTotalSum.textContent = `${totalPrice.toFixed(2)} ₽`;
 
-          const totalPages = Math.ceil(cart.length / itemsPerPage);
+         const totalPages = Math.ceil(cart.length / itemsPerPage);
 
-          for (let i = 1; i <= totalPages; i++) {
-              const pageButton = document.createElement('button');
-              pageButton.textContent = i;
-              if (i === page) {
-                  pageButton.classList.add('active');
-              }
+         for (let i = 1; i <= totalPages; i++) {
+             const pageButton = document.createElement('button');
+             pageButton.textContent = i;
+             if (i === page) {
+                 pageButton.classList.add('active');
+             }
 
-              pageButton.addEventListener('click', () => {
-                  renderCartModal(i);
-              });
+             pageButton.addEventListener('click', () => {
+                 renderCartModal(i);
+             });
 
-              paginationContainer.appendChild(pageButton);
-          }
-      }
+             paginationContainer.appendChild(pageButton);
+         }
+     }
 
 
     fetchItems();

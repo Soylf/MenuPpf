@@ -11,17 +11,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Items")
+@Table(name = "items")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String price;
     private String name;
-    private String category;
     private String description;
-    private String heft;
+    private String category;
     private String pieces;
+    private String heft;
     @Lob
     private byte[] image;
     private String imageFormat;
