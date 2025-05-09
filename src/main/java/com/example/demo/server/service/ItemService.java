@@ -10,8 +10,6 @@ public interface ItemService {
     void save(Item item);
     void delete(String name);
     List<ItemDto> getAll();
-    void saveOptionsPayNum(String payNum);
     void saveOptionsBot(String botName, String botToken);
-    String getOptionsPayNum();
     List<String> getAllCategory();
 }

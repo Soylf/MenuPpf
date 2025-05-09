@@ -3,7 +3,6 @@ package com.example.demo.server.service;
 import com.example.demo.api.config.BotConfig;
 import com.example.demo.model.Item;
 import com.example.demo.model.ItemDto;
-import com.example.demo.model.OptionsSite;
 import com.example.demo.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 public class ItemServiceImpl implements ItemService{
     private final BotConfig botConfig;
     private final ItemRepository repository;
-    private final OptionsSite optionsSite;
 
     @Override
     public void save(Item item) {
@@ -37,22 +35,12 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void saveOptionsPayNum(String payNum) {
-        optionsSite.setPayNum(payNum);
-    }
-
-    @Override
     public void saveOptionsBot(String botName, String botToken) {
         botConfig.updateBotConfig(botName, botToken);
     }
 
     @Override
-    public String getOptionsPayNum() {
-        return optionsSite.getPayNum();
-    }
-
-    @Override
     public List<String> getAllCategory() {
-        return repository.findAllByCategory();
+        return repository.findDistinctCategories();
     }
 }
