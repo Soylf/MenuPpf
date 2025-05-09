@@ -22,12 +22,6 @@ public class Item {
     private String category;
     private String pieces;
     private String heft;
-    @Lob
-    private byte[] image;
-    private String imageFormat;
-
-    public String getImageFormat() {
-        return (imageFormat != null) ? imageFormat : "image/jpeg";
-    }
+    private String image;
 
 }

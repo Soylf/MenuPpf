@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
       itemCard.classList.add('menu-item');
       itemCard.dataset.id = item.id;
 
-      let imageUrl = item.image ? item.image : '/path/to/default-image.jpg';
+console.log(item.image);
+      let imageUrl = item.image;
 
       itemCard.innerHTML = `
         <div class="image-wrapper">

@@ -47,7 +47,7 @@
                     <span>Выберите файл или перетащите его сюда</span>
                     <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)" style="display: none;">
                 </label>
-                <img id="preview" class="image-preview" alt="Предпросмотр изображения">
+                <img id="preview" class="image-preview" alt="Предпросмотр изображения" src="">
             </div>
         </div>
 
@@ -99,17 +99,6 @@
 
     <button type="submit" id="save-bot-btn" class="btn btn-bot">
         <span>Сохранить данные</span>
-    </button>
-
-    <h2>Параметры оплаты</h2>
-
-    <div class="form-group">
-        <label for="pay-num">Номер счёта:</label>
-        <input type="text" id="pay-num" name="pay-num" placeholder="Введите номер счёта">
-    </div>
-
-    <button type="submit" id="save-pay-num-btn" class="btn btn-pay-num">
-        <span>Сохранить номер</span>
     </button>
 </div>
 

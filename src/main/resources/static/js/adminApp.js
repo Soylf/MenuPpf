@@ -125,39 +125,4 @@ document.addEventListener('DOMContentLoaded', () => {
                 showNotification('Ошибка!', 'Ошибка сети: ' + error.message, true);
             }
         });
-
-        document.getElementById('save-pay-num-btn').addEventListener('click', async function(e) {
-            e.preventDefault();
-
-            const payNum = document.getElementById('pay-num').value;
-
-            try {
-                const submitBtn = this;
-                const originalBtnText = submitBtn.innerHTML;
-
-                submitBtn.innerHTML = '<span>Сохранение...</span>';
-                submitBtn.disabled = true;
-
-                const response = await fetch('/admin/save-options/pay-num', {
-                    method: 'POST',
-                    body: new URLSearchParams({
-                        payNum: payNum
-                    })
-                });
-
-                if (response.ok) {
-                    const message = await response.text();
-                    submitBtn.innerHTML = originalBtnText;
-                                    submitBtn.disabled = false;
-                    showNotification('Успех!', message);
-                } else {
-                    const error = await response.text();
-                    submitBtn.innerHTML = originalBtnText;
-                                    submitBtn.disabled = false;
-                    showNotification('Ошибка!', error || 'Ошибка при сохранении номера', true);
-                }
-            } catch (error) {
-                showNotification('Ошибка!', 'Ошибка сети: ' + error.message, true);
-            }
-        });
     });
