@@ -1,0 +1,72 @@
+#toggle-btn {
+    padding: 10px 20px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#toggle-btn:hover {
+    background-color: #f7f7f7;
+    border-color: #bbb;
+}
+
+#toggle-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #4c8bf5;
+}
+
+#dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 220px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+#dropdown.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+#dropdown button {
+    width: 100%;
+    padding: 12px 20px;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#dropdown button:hover {
+    background-color: #f0f0f0;
+    color: #0056b3;
+}
+
+#dropdown button:focus {
+    outline: none;
+    background-color: #e6e6e6;
+    color: #003366;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+}

@@ -23,5 +23,4 @@ public class Item {
     private String pieces;
     private String heft;
     private String image;
-
 }

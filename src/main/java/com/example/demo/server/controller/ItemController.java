@@ -75,7 +75,7 @@ public class ItemController {
     }
 
     @GetMapping("/category")
-    public List<String> getAllByCategory() {
+    public List<String> getAllCategory() {
         return service.getAllCategory();
     }
 
@@ -83,7 +83,7 @@ public class ItemController {
     @PostMapping("/save-options/bot")
     public ResponseEntity<String> saveOptionsBot(@RequestParam String botName,
                                               @RequestParam String botToken) {
-        log.info(botToken);
+
         service.saveOptionsBot(botName, botToken);
         return ResponseEntity.ok("Настройки сохранены!");
     }

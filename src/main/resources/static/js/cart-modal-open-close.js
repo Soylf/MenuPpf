@@ -5,17 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeCartBtn = document.getElementById('close-cart');
 
     cartBar.addEventListener('click', () => {
-        cartBackdrop.classList.add('show');
-        cartModal.classList.add('show');
+        cartBackdrop.classList.remove('hidden');
+        cartModal.classList.remove('hidden');
     });
 
     closeCartBtn.addEventListener('click', () => {
-        cartBackdrop.classList.remove('show');
-        cartModal.classList.remove('show');
+        cartBackdrop.classList.add('hidden');
+        cartModal.classList.add('hidden');
     });
 
     cartBackdrop.addEventListener('click', () => {
-        cartBackdrop.classList.remove('show');
-        cartModal.classList.remove('show');
+        cartBackdrop.classList.add('hidden');
+        cartModal.classList.add('hidden');
     });
 });

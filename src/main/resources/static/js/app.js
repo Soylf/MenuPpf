@@ -1,3 +1,4 @@
+import { initCategoryMenu } from './categoryMenu.js';
 document.addEventListener('DOMContentLoaded', () => {
     let cart = [];
 
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function createCategorySection(categoryName, itemsInCategory) {
     const sectionContainer = document.createElement('section');
     sectionContainer.classList.add('category-section');
+    sectionContainer.id = categoryName.toLowerCase().replace(/\s+/g, '-');
 
     const header = document.createElement('h2');
     header.textContent = categoryName;
@@ -26,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
       itemCard.classList.add('menu-item');
       itemCard.dataset.id = item.id;
 
-console.log(item.image);
       let imageUrl = item.image;
 
       itemCard.innerHTML = `
@@ -159,6 +160,12 @@ function showPopup(data) {
 
           cartCount.textContent = totalQuantity;
           cartSum.textContent = totalPrice + ' ₽';
+
+          if (totalQuantity > 0) {
+              document.getElementById('cart-bar').classList.remove('hidden');
+          } else {
+              document.getElementById('cart-bar').classList.add('hidden');
+          }
       }
 
      function renderCartModal(page = 1) {
@@ -221,6 +228,6 @@ function showPopup(data) {
          }
      }
 
-
+    initCategoryMenu();
     fetchItems();
 });
