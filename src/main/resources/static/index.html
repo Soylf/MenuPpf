@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="styles/index/upSite.css">
     <link rel="stylesheet" href="styles/index/adminLock.css">
     <link rel="stylesheet" href="styles/index/dropdown.css">
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles/index/mobile.css" media="(max-width: 767px)">
 
     <title>Меню</title>
 </head>
@@ -47,11 +46,10 @@
     </div>
 </div>
 
-
 <div class="menu-up-site">
     <div class="menu-toggle-wrapper">
         <button id="toggle-btn" class="toggle-btn">
-            МЕНЮ <i class="fas fa-chevron-down" id="menu-icon"></i>
+           <i class="fas fa-chevron-down" id="menu-icon"></i>
         </button>
         <div id="dropdown" class="dropdown"></div>
     </div>
@@ -98,8 +96,6 @@
         <button id="place-order-btn" class="place-order-btn">Оформить заказ</button>
     </div>
 </div>
-
-
 
 <script>
     const toggleButton = document.getElementById('toggle-button');

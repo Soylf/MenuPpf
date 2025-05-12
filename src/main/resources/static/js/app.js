@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function groupByCategory(items) {
     return items.reduce((acc, currentItem) => {
-      const categoryName = currentItem.category || 'Без категории';
+      const categoryName = currentItem.category;
       acc[categoryName] = [...(acc[categoryName] || []), currentItem];
       return acc;
     }, {});
@@ -36,13 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
          </div>
          <h3>${item.name}</h3>
          <p class="hidden-description">${item.description || 'Не указано'}</p>
-         <div style="display:flex; justify-content:space-between; align-items:center;">
-           <p class="price">Цена: ${item.price} ₽</p>
-           <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
-             <strong>Кол-во:</strong> ${item.pieces || 'Не указанно'}
-             <br />
-             <strong>Вес:</strong> ${item.heft || 'Не указанно'} ккал
+         <div class="item-specs">
+           <div class="item-specs-row">
+             <p class="item-weight"><strong>Вес:</strong> ${item.heft || 'Не указанно'} ккал</span>
+             <p class="item-quantity"><strong>Кол-во:</strong> ${item.pieces || 'Не указанно'}</span>
            </div>
+           <div class="price">${item.price} ₽</div>
          </div>
        `;
 
@@ -195,18 +194,56 @@ function showPopup(data) {
              itemDiv.classList.add('cart-item');
 
              itemDiv.innerHTML = `
-                 <div class="cart-item-details">
-                     <img src="${item.image}" alt="${item.name}" width="80"/>
-                     <div class="item-info">
-                         <h3>${item.name} × ${item.quantity}</h3>
-                         <p>Цена: ${item.price} ₽</p>
-                         <p>Общая цена: ${item.price * item.quantity} ₽</p>
-                     </div>
-                 </div>
-             `;
+                         <div class="cart-item">
+                                     <div class="cart-item-details">
+                                         <img src="${item.image}" alt="${item.name}" width="80"/>
+                                         <div class="item-info">
+                                             <h3>${item.name}</h3>
+                                             <p>Цена: ${item.price} ₽</p>
+                                             <p>Общая цена: ${(item.price * item.quantity).toFixed(2)} ₽</p>
+                                         </div>
+                                         <div class="cart-item-quantity-container">
+                                             <div class="cart-item-quantity-controls">
+                                                 <button class="decrease-btn" data-id="${item.id}">-</button>
+                                                 <span class="cart-item-quantity">${item.quantity}</span>
+                                                 <button class="increase-btn" data-id="${item.id}">+</button>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             `;
 
              cartItemsContainer.appendChild(itemDiv);
          });
+
+         document.querySelectorAll('.increase-btn').forEach(btn => {
+             btn.addEventListener('click', () => {
+                 const itemId = btn.getAttribute('data-id');
+                 const item = cart.find(i => i.id == itemId);
+                 if (item) {
+                     item.quantity++;
+                     renderCartModal(page);
+                 }
+             });
+         });
+
+         document.querySelectorAll('.decrease-btn').forEach(btn => {
+                 btn.addEventListener('click', () => {
+                     const itemId = btn.getAttribute('data-id');
+                     const itemIndex = cart.findIndex(i => i.id == itemId);
+
+                     if (itemIndex !== -1) {
+                         if (cart[itemIndex].quantity > 1) {
+                             cart[itemIndex].quantity--;
+                         } else {
+                             cart.splice(itemIndex, 1);
+                         }
+                         const newTotalPages = Math.ceil(cart.length / itemsPerPage);
+                         const newPage = page > newTotalPages ? Math.max(1, newTotalPages) : page;
+                         renderCartModal(newPage);
+                     }
+                 });
+             });
 
          cartCountItems.textContent = `${totalQuantity}`;
          cartTotalSum.textContent = `${totalPrice.toFixed(2)} ₽`;

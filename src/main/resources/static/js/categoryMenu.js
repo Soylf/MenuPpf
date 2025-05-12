@@ -10,7 +10,7 @@ export async function initCategoryMenu() {
 }
 
 function createCategoryMenu(categories) {
-    const menuUpSite = document.querySelector('.menu-up-site');
+    const menuUpSite = document.querySelector('.menu-toggle-wrapper');
     if (!menuUpSite) return;
 
     const dropdown  = document.getElementById('dropdown');
