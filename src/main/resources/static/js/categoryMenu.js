@@ -10,50 +10,44 @@ export async function initCategoryMenu() {
 }
 
 function createCategoryMenu(categories) {
-    const menuSite = document.querySelector('.menu-site');
-    if (!menuSite) return;
+    const menuUpSite = document.querySelector('.menu-up-site');
+    if (!menuUpSite) return;
 
-    const dropdown = document.getElementById('dropdown');
+    const dropdown  = document.getElementById('dropdown');
     const toggleBtn = document.getElementById('toggle-btn');
-    const menuIcon = document.getElementById('menu-icon');
+    const menuIcon  = document.getElementById('menu-icon');
     if (!dropdown || !toggleBtn || !menuIcon) return;
 
     categories.forEach(category => {
         const btn = document.createElement('button');
         btn.textContent = category;
-        btn.className = "dropdown-btn";
+        btn.className   = "dropdown-btn";
 
         btn.addEventListener('click', () => {
-            const section = document.getElementById(category.toLowerCase().replace(/\s+/g, '-'));
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                console.warn(`Раздел с заголовком "${category}" не найден.`);
-            }
+            const id = category.toLowerCase().replace(/\s+/g, '-');
+            const section = document.getElementById(id);
+            if (section) section.scrollIntoView({ behavior: 'smooth' });
+            dropdown.classList.remove('show');
+            toggleBtn.classList.remove('open');
+            menuIcon.classList.replace('fa-chevron-up','fa-chevron-down');
         });
 
         dropdown.appendChild(btn);
     });
 
-    toggleBtn.addEventListener('click', () => {
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         dropdown.classList.toggle('show');
-        dropdown.classList.toggle('hidden');
-
-        if (dropdown.classList.contains('show')) {
-            menuIcon.classList.remove('fa-chevron-down');
-            menuIcon.classList.add('fa-chevron-up');
-        } else {
-            menuIcon.classList.remove('fa-chevron-up');
-            menuIcon.classList.add('fa-chevron-down');
-        }
+        toggleBtn.classList.toggle('open');
+        menuIcon.classList.toggle('fa-chevron-up');
+        menuIcon.classList.toggle('fa-chevron-down');
     });
 
     document.addEventListener('click', (e) => {
-        if (!menuSite.contains(e.target)) {
-            dropdown.classList.add('hidden');
+        if (!menuUpSite.contains(e.target)) {
             dropdown.classList.remove('show');
-            menuIcon.classList.remove('fa-chevron-up');
-            menuIcon.classList.add('fa-chevron-down');
+            toggleBtn.classList.remove('open');
+            menuIcon.classList.replace('fa-chevron-up','fa-chevron-down');
         }
     });
 }

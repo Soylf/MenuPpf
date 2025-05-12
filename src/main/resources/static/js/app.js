@@ -10,47 +10,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }, {});
   }
 
-  function createCategorySection(categoryName, itemsInCategory) {
-    const sectionContainer = document.createElement('section');
-    sectionContainer.classList.add('category-section');
-    sectionContainer.id = categoryName.toLowerCase().replace(/\s+/g, '-');
+ function createCategorySection(categoryName, itemsInCategory) {
+     const sectionContainer = document.createElement('section');
+     sectionContainer.classList.add('category-section');
+     sectionContainer.id = categoryName.toLowerCase().replace(/\s+/g, '-');
 
-    const header = document.createElement('h2');
-    header.textContent = categoryName;
-    sectionContainer.appendChild(header);
+     const header = document.createElement('h2');
+     header.textContent = categoryName;
+     sectionContainer.appendChild(header);
 
-    const menuGrid = document.createElement('div');
-    menuGrid.classList.add('menu-grid');
-    sectionContainer.appendChild(menuGrid);
+     const menuGrid = document.createElement('div');
+     menuGrid.classList.add('menu-grid');
+     sectionContainer.appendChild(menuGrid);
 
-    itemsInCategory.forEach(item => {
-      const itemCard = document.createElement('div');
-      itemCard.classList.add('menu-item');
-      itemCard.dataset.id = item.id;
+     itemsInCategory.forEach(item => {
+       const itemCard = document.createElement('div');
+       itemCard.classList.add('menu-item');
+       itemCard.dataset.id = item.id;
 
-      let imageUrl = item.image;
+       let imageUrl = item.image;
 
-      itemCard.innerHTML = `
-        <div class="image-wrapper">
-          <img src="${imageUrl}" alt="${item.name}" class="main-image">
-        </div>
-        <h3>${item.name}</h3>
-        <p class="hidden-description">${item.description || 'Не указанно'}</p>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <p class="price">Цена: ${item.price} ₽</p>
-          <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
-            <strong>Кол-во:</strong> ${item.pieces || 'Не указанно'}
-            <br />
-            <strong>Вес:</strong> ${item.heft || 'Не указанно'} ккал
-          </div>
-        </div>
-      `;
+       itemCard.innerHTML = `
+         <div class="image-wrapper">
+           <img src="${imageUrl}" alt="${item.name}" class="main-image">
+         </div>
+         <h3>${item.name}</h3>
+         <p class="hidden-description">${item.description || 'Не указано'}</p>
+         <div style="display:flex; justify-content:space-between; align-items:center;">
+           <p class="price">Цена: ${item.price} ₽</p>
+           <div style="border-left: 1px solid #ccc; padding-left: 10px; font-size: 16px; color:#343434;">
+             <strong>Кол-во:</strong> ${item.pieces || 'Не указанно'}
+             <br />
+             <strong>Вес:</strong> ${item.heft || 'Не указанно'} ккал
+           </div>
+         </div>
+       `;
 
-      menuGrid.appendChild(itemCard);
-    });
+       menuGrid.appendChild(itemCard);
+     });
 
-    return sectionContainer;
-  }
+     return sectionContainer;
+   }
 
   function displayMenu(items) {
     const groupedItems = groupByCategory(items);
