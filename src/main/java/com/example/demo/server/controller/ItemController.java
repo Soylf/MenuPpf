@@ -1,11 +1,8 @@
 package com.example.demo.server.controller;
 
-import com.example.demo.api.TelegramBotService;
 import com.example.demo.model.Item;
-import com.example.demo.model.ItemDto;
 import com.example.demo.server.service.ItemService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,18 +10,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-@Log4j2
 public class ItemController {
     @Value("${app.image.storage-path}")
     private String absoluteImagesFolder;
     private final ItemService service;
-    TelegramBotService telegramBotService;
 
     @RequestMapping("/items")
     public ResponseEntity<String> saveItem(
@@ -67,30 +61,5 @@ public class ItemController {
     public ResponseEntity<String> deleteItem(@RequestParam String name) {
         service.delete(name);
         return ResponseEntity.ok("Товар удалён");
-    }
-
-    @GetMapping("/items")
-    public List<ItemDto> getAllItems() {
-        return service.getAll();
-    }
-
-    @GetMapping("/category")
-    public List<String> getAllCategory() {
-        return service.getAllCategory();
-    }
-
-    //Бесполезно через service, но хоть красиво ^^
-    @PostMapping("/save-options/bot")
-    public ResponseEntity<String> saveOptionsBot(@RequestParam String botName,
-                                              @RequestParam String botToken) {
-
-        service.saveOptionsBot(botName, botToken);
-        return ResponseEntity.ok("Настройки сохранены!");
-    }
-
-    @PostMapping("/set-items")
-    public ResponseEntity<String> setItemsBot(List<Item> items) {
-        telegramBotService.setItems(items);
-        return ResponseEntity.ok("Все ок");
     }
 }

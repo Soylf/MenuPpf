@@ -1,5 +1,6 @@
-package com.example.demo.model;
+package com.example.demo.model.dto;
 
+import com.example.demo.model.Item;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.innerHTML = '<span>Сохранение...</span>';
                 submitBtn.disabled = true;
 
-                const response = await fetch('/admin/save-options/bot', {
+                const response = await fetch('/items/save-options/bot', {
                     method: 'POST',
                     body: new URLSearchParams({
                         botName: botName,
@@ -125,4 +125,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 showNotification('Ошибка!', 'Ошибка сети: ' + error.message, true);
             }
         });
-    });
+
+        document.getElementById('save-option-widget-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const widgetName = document.getElementById('name-widget').value.trim();
+            if (!widgetName) {
+                showNotification('Ошибка!', 'Введите название виджета', true);
+                return;
+            }
+
+            localStorage.setItem('widgetName', widgetName);
+            showNotification('Успех!', 'Название виджета сохранено');
+
+            updateToggleButton(widgetName);
+        });
+
+        function updateToggleButton(name) {
+            const toggleBtn = document.getElementById('toggle-btn');
+            if (toggleBtn) {
+                toggleBtn.innerHTML = `
+                    <span>${name}</span>
+                    <i class="fas fa-chevron-down" id="menu-icon"></i>
+                `;
+            }
+        }
+});

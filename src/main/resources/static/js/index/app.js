@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchItems() {
       try {
-          const response = await fetch('/admin/items');
+          const response = await fetch('/items');
           if (!response.ok) throw new Error(`Ошибка HTTP (${response.status})`);
 
           const items = await response.json();

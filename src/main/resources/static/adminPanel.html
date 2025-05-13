@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Админ-панель</title>
-    <link rel="stylesheet" href="styles/adminStyles.css">
+    <link rel="stylesheet" href="styles/admin/adminStyles.css">
 </head>
 <body>
 <div class="container">
@@ -81,7 +81,6 @@
 </div>
 
 <div id="cart-bar">⚫</div>
-
 <div id="cart-backdrop" class="hidden"></div>
 <div id="cart-modal" class="hidden">
     <h2>Настройки Telegram-бота</h2>
@@ -98,6 +97,33 @@
     </div>
 
     <button type="submit" id="save-bot-btn" class="btn btn-bot">
+        <span>Сохранить данные</span>
+    </button>
+
+    <h2>Настройка виджета категорий</h2>
+
+    <div class="option-widget">
+        <label for="name-widget">Название</label>
+        <input type="text" id="name-widget" name="name-widget" placeholder="Навазние Виджета">
+    </div>
+
+    <button type="submit" id="save-option-widget-btn" class="btn btn-widget">
+        <span>Сохранить данные</span>
+    </button>
+
+    <h2>Изменить данные банка 🔐</h2>
+
+    <div class="client-it-cart">
+        <label for="client-id">client_id</label>
+        <input type="text" id="client-id" name="client-id" placeholder="Введите client_id">
+    </div>
+
+    <div class="client_secret-cart">
+        <label for="client_secret">client_secret</label>
+        <input type="text" id="client_secret" name="client_secret" placeholder="Введите client_secret">
+    </div>
+
+    <button type="submit" id="save-option-bank-btn" class="btn btn-bank">
         <span>Сохранить данные</span>
     </button>
 </div>
@@ -119,8 +145,8 @@
         }
     }
 </script>
-<script src="js/cart-modal-open-close-admin.js"></script>
-<script src="./js/adminApp.js"></script>
+<script src="js/admin/cart-modal-open-close-admin.js"></script>
+<script src="js/admin/adminApp.js"></script>
 
 </body>
 </html>
