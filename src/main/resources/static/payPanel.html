@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма заказа</title>
+
+    <link rel="stylesheet" href="styles/pay/payStyles.css">
 </head>
 <body>
+<div class="user-form">
+    <h2>Оформление заказа</h2>
+    <form id="form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">Имя*</label>
+                <input type="text" id="name" name="name" required placeholder="Ваше имя">
+            </div>
 
+            <div class="form-group">
+                <label for="age">Возраст</label>
+                <input type="number" id="age" name="age" min="12" max="99" placeholder="Укажите возраст">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Способ связи*</label>
+            <div class="connection-options">
+                <div class="connection-option">
+                    <input type="radio" id="telegram" name="connection" value="telegram" checked>
+                    <label for="telegram">Telegram</label>
+                </div>
+                <div class="connection-option">
+                    <input type="radio" id="phone" name="connection" value="phone">
+                    <label for="phone">Телефон</label>
+                </div>
+                <div class="connection-option">
+                    <input type="radio" id="whatsapp" name="connection" value="whatsapp">
+                    <label for="whatsapp">WhatsApp</label>
+                </div>
+            </div>
+
+            <input type="text" id="contact-info" name="contact-info" required
+                   placeholder="Введите ваш Telegram/телефон" style="margin-top: 15px;">
+        </div>
+
+        <div class="form-group">
+            <label for="comment">Комментарий к заказу</label>
+            <textarea id="comment" name="comment" placeholder="Ваши пожелания или особые указания"></textarea>
+        </div>
+
+        <div class="buttons">
+            <button type="button" class="btn btn-contact">
+                <span>Связаться</span>
+            </button>
+
+            <button type="submit" class="btn btn-pay">
+                <span>Оплатить</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const connectionInputs = document.querySelectorAll('input[name="connection"]');
+    const contactInfoInput = document.getElementById('contact-info');
+
+    connectionInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const method = this.value;
+            let placeholder = '';
+
+            if (method === 'telegram') {
+                placeholder = 'Введите ваш Telegram (@username)';
+            } else if (method === 'phone') {
+                placeholder = 'Введите номер телефона';
+            } else if (method === 'whatsapp') {
+                placeholder = 'Введите номер WhatsApp';
+            }
+
+            contactInfoInput.placeholder = placeholder;
+        });
+    });
+</script>
 </body>
 </html>
