@@ -358,3 +358,99 @@ input:focus {
 .close-btn:hover {
     transform: scale(1.1);
 }
+
+#set-bank-form {
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid #ddd;
+}
+
+#save-option-bank-btn {
+    background-color: #4361EE;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+#save-option-bank-btn:hover {
+    background-color: #3a56d4;
+    transform: translateY(-2px);
+}
+
+/* Стили для каждого блока ввода */
+.client-id-name,
+.client-it-cart,
+.client_secret-cart {
+    margin-bottom: 1.5rem;
+}
+
+.client-id-name label,
+.client-it-cart label,
+.client_secret-cart label {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.client-id-name input,
+.client-it-cart input,
+.client_secret-cart input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.client-id-name input:focus,
+.client-it-cart input:focus,
+.client_secret-cart input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+/* Общие стили для всех кнопок */
+.btn-bank {
+    background: var(--primary);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1rem;
+    text-align: center;
+}
+
+.btn-bank:hover {
+    background: #3a56d4;
+    transform: translateY(-2px);
+}
+
+/* Мобильная версия (оптимизация для маленьких экранов) */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    .client-id-name input,
+    .client-it-cart input,
+    .client_secret-cart input {
+        padding: 0.5rem;
+    }
+
+    #save-option-bank-btn {
+        padding: 0.5rem 1.5rem;
+    }
+}

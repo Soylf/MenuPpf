@@ -1,150 +1,164 @@
+/* Основные стили */
 :root {
-            --primary-color: #4a76a8;
-            --secondary-color: #5cb85c;
-            --hover-color: #3a5f8a;
-            --text-color: #333;
-            --light-gray: #f5f5f5;
-            --border-color: #ddd;
-        }
+    --primary-color: #4a76a8;
+    --secondary-color: #5cb85c;
+    --hover-color: #3a5f8a;
+    --text-color: #333;
+    --light-gray: #f5f5f5;
+    --border-color: #ddd;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        body {
-            background-color: #f9f9f9;
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-        }
+body {
+    background-color: #f9f9f9;
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 20px;
+}
 
-        .user-form {
-            max-width: 600px;
-            margin: 30px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
+.user-form {
+    max-width: 600px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
 
-        .user-form h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--primary-color);
-        }
+.user-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+}
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+/* Стили для блока суммы заказа */
+.order-sum-container {
+    text-align: left;
+    margin-bottom: 20px; /* Отступ между суммой и заголовком */
+}
 
-        .form-row {
-            display: flex;
-            gap: 20px;
-        }
+#order-sum {
+    color: #555; /* Спокойный цвет текста */
+    font-weight: normal;
+    font-size: 16px;
+}
 
-        .form-row .form-group {
-            flex: 1;
-        }
+/* Стили для остальных элементов формы */
+.form-group {
+    margin-bottom: 20px;
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-color);
-        }
+.form-row {
+    display: flex;
+    gap: 20px;
+}
 
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            font-size: 16px;
-            transition: border 0.3s;
-        }
+.form-row .form-group {
+    flex: 1;
+}
 
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(74, 118, 168, 0.2);
-        }
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color);
+}
 
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
 
-        .connection-options {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
+input:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 118, 168, 0.2);
+}
 
-        .connection-option {
-            flex: 1;
-        }
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
 
-        .connection-option input {
-            display: none;
-        }
+.connection-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
 
-        .connection-option label {
-            display: block;
-            padding: 12px;
-            background: var(--light-gray);
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.connection-option {
+    flex: 1;
+}
 
-        .connection-option input:checked + label {
-            background: var(--primary-color);
-            color: white;
-        }
+.connection-option input {
+    display: none;
+}
 
-        .buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
+.connection-option label {
+    display: block;
+    padding: 12px;
+    background: var(--light-gray);
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
 
-        .btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.connection-option input:checked + label {
+    background: var(--primary-color);
+    color: white;
+}
 
-        .btn-pay {
-            background-color: var(--secondary-color);
-            color: white;
-        }
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
 
-        .btn-pay:hover {
-            background-color: #4cae4c;
-        }
+.btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .btn-contact {
-            background-color: var(--primary-color);
-            color: white;
-        }
+.btn-pay {
+    background-color: var(--secondary-color);
+    color: white;
+}
 
-        .btn-contact:hover {
-            background-color: var(--hover-color);
-        }
+.btn-pay:hover {
+    background-color: #4cae4c;
+}
 
-        @media (max-width: 600px) {
-            .form-row, .connection-options, .buttons {
-                flex-direction: column;
-            }
-        }
+.btn-contact {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-contact:hover {
+    background-color: var(--hover-color);
+}
+
+@media (max-width: 600px) {
+    .form-row, .connection-options, .buttons {
+        flex-direction: column;
+    }
+}

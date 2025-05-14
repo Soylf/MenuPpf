@@ -150,4 +150,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             }
         }
+
+        document.getElementById('set-bank-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+                const idName = document.getElementById('id-name').value;
+
+                try {
+                    submitBtn.innerHTML = '<span>Сохранение...</span>';
+                    submitBtn.disabled = true;
+
+                    localStorage.setItem('idName', idName);
+                    console.log(localStorage.getItem('idName') || "gg");
+
+                    const response = await fetch('/items/set-bank', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const message = await response.text();
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                        showNotification('Успех!', message);
+                        this.reset();
+                    } else {
+                        const error = await response.text();
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                        showNotification('Ошибка!', error || 'Ошибка при изменении данных банка', true);
+                    }
+                } catch (error) {
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                    showNotification('Ошибка!', 'Ошибка сети: ' + error.message, true);
+                }
+            });
+
 });

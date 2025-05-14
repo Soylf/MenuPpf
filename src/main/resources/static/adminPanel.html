@@ -68,6 +68,29 @@
             </button>
         </form>
     </div>
+
+    <h2>Изменить данные банка Сбер 🔐</h2>
+
+    <form id="set-bank-form">
+        <div class="client-id-name">
+            <label for="id-name">id-name для поиска по названию, любое название</label>
+            <input type="text" id="id-name" name="id_name" placeholder="Введите id-name">
+        </div>
+
+        <div class="client-it-cart">
+            <label for="client-id">client_id</label>
+            <input type="text" id="client-id" name="client_id" placeholder="Введите client_id">
+        </div>
+
+        <div class="client_secret-cart">
+            <label for="client_secret">client_secret</label>
+            <input type="text" id="client_secret" name="client_secret" placeholder="Введите client_secret">
+        </div>
+
+        <button type="submit" id="save-option-bank-btn" class="btn btn-bank">
+            <span>Сохранить данные</span>
+        </button>
+    </form>
 </div>
 
 <div id="notification" class="notification">
@@ -108,22 +131,6 @@
     </div>
 
     <button type="submit" id="save-option-widget-btn" class="btn btn-widget">
-        <span>Сохранить данные</span>
-    </button>
-
-    <h2>Изменить данные банка 🔐</h2>
-
-    <div class="client-it-cart">
-        <label for="client-id">client_id</label>
-        <input type="text" id="client-id" name="client-id" placeholder="Введите client_id">
-    </div>
-
-    <div class="client_secret-cart">
-        <label for="client_secret">client_secret</label>
-        <input type="text" id="client_secret" name="client_secret" placeholder="Введите client_secret">
-    </div>
-
-    <button type="submit" id="save-option-bank-btn" class="btn btn-bank">
         <span>Сохранить данные</span>
     </button>
 </div>

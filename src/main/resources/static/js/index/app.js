@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       id: target.dataset.id,
                       name: target.querySelector('h3').innerText,
                       description: target.querySelector('p').innerText,
-                      price: parseFloat(target.querySelector('.price').innerText.split(':')[1]),
+                      price: parseFloat(target.querySelector('.price').innerText.replace(/[^\d.]/g, '')),
                       image: target.querySelector('.main-image').src
                   };
 
@@ -247,6 +247,7 @@ function showPopup(data) {
 
          cartCountItems.textContent = `${totalQuantity}`;
          cartTotalSum.textContent = `${totalPrice.toFixed(2)} ₽`;
+         localStorage.setItem('cartTotalSum', cartTotalSum.textContent);
 
          const totalPages = Math.ceil(cart.length / itemsPerPage);
 

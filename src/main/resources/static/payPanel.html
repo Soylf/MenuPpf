@@ -9,6 +9,11 @@
 </head>
 <body>
 <div class="user-form">
+    <!-- Сумма заказа над заголовком -->
+    <div class="order-sum-container">
+        <span id="order-sum">Сумма заказа: 0</span>
+    </div>
+
     <h2>Оформление заказа</h2>
     <form id="form">
         <div class="form-row">
@@ -19,7 +24,7 @@
 
             <div class="form-group">
                 <label for="age">Возраст</label>
-                <input type="number" id="age" name="age" min="12" max="99" placeholder="Укажите возраст">
+                <input type="text" id="age" name="age" placeholder="Укажите возраст">
             </div>
         </div>
 
@@ -62,6 +67,7 @@
 </div>
 
 <script>
+    // Обработка изменения способа связи
     const connectionInputs = document.querySelectorAll('input[name="connection"]');
     const contactInfoInput = document.getElementById('contact-info');
 
@@ -81,6 +87,16 @@
             contactInfoInput.placeholder = placeholder;
         });
     });
+
+    // Получаем сумму из localStorage и отображаем её в правом верхнем углу внутри формы
+    const orderSum = localStorage.getItem('cartTotalSum');
+    const orderSumBlock = document.getElementById('order-sum');
+
+    if (orderSum && orderSumBlock) {
+        orderSumBlock.textContent = `Сумма заказа: ${orderSum}`;
+    }
 </script>
+
+<script src="js/pay/payApp.js"></script>
 </body>
 </html>
