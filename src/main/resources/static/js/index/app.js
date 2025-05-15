@@ -34,16 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
          <div class="image-wrapper">
            <img src="${imageUrl}" alt="${item.name}" class="main-image">
          </div>
-         <h3>${item.name}</h3>
          <p class="hidden-description">${item.description || 'Не указано'}</p>
-         <div class="item-specs">
-           <div class="item-specs-row">
-             <p class="item-weight"><strong>Вес:</strong> ${item.heft || 'Не указанно'} ккал</span>
-             <p class="item-quantity"><strong>Кол-во:</strong> ${item.pieces || 'Не указанно'}</span>
-           </div>
-           <div class="price">${item.price} ₽</div>
+         <div class="item-info">
+           <span class="price">${item.price} ₽</span>
+           <span class="item-details"> ${item.heft || 'Не указано'}ккал/${item.pieces || 'Не указано'}шт</span>
          </div>
-       `;
+         <h3 class="item-name">${item.name}</h3>
+         `;
 
        menuGrid.appendChild(itemCard);
      });
