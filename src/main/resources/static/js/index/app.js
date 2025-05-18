@@ -165,7 +165,7 @@ function showPopup(data) {
       }
 
      function renderCartModal(page = 1) {
-         const itemsPerPage = 4;
+         const itemsPerPage = 3;
          const startIndex = (page - 1) * itemsPerPage;
          const endIndex = startIndex + itemsPerPage;
          const paginatedItems = cart.slice(startIndex, endIndex);
