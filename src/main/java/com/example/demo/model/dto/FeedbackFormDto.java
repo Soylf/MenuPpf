@@ -12,4 +12,5 @@ public class FeedbackFormDto {
     private String age;
     private String relations;
     private String comment;
+    private String status;
 }

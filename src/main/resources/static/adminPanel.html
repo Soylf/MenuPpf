@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Админ-панель</title>
     <link rel="stylesheet" href="styles/admin/adminStyles.css">
+    <link rel="stylesheet" href="styles/notification.css">
 </head>
 <body>
 <div class="container">
@@ -77,30 +78,30 @@
             <input type="text" id="id-name" name="id_name" placeholder="Введите id-name">
         </div>
 
-        <div class="client-it-cart">
+        <div class="client-id-cart">
             <label for="client-id">client_id</label>
             <input type="text" id="client-id" name="client_id" placeholder="Введите client_id">
         </div>
 
-        <div class="client_secret-cart">
+        <div class="client-secret-cart">
             <label for="client_secret">client_secret</label>
             <input type="text" id="client_secret" name="client_secret" placeholder="Введите client_secret">
+        </div>
+
+        <div class="client-member-id-cart">
+            <label for="member_id">member_id</label>
+            <input type="text" id="member_id" name="member_id" placeholder="Введите member_id">
+        </div>
+
+        <div class="client-id-qr">
+            <label for="id_qr">id_qr</label>
+            <input type="text" id="id_qr" name="id_qr" placeholder="Введите id_qr">
         </div>
 
         <button type="submit" id="save-option-bank-btn" class="btn btn-bank">
             <span>Сохранить данные</span>
         </button>
     </form>
-</div>
-
-<div id="notification" class="notification">
-    <div class="notification-icon">✓</div>
-    <div class="notification-content">
-        <div class="notification-title" id="notification-title">Успех!</div>
-        <div class="notification-message" id="notification-message">Товар успешно сохранен</div>
-    </div>
-    <button class="notification-close" onclick="hideNotification()">×</button>
-    <div class="notification-progress"></div>
 </div>
 
 <div id="cart-bar">⚫</div>

@@ -1,0 +1,116 @@
+.btn-contact {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-contact:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.contact-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.contact-modal {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.contact-modal h3 {
+  color: #1C1C1C;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.contact-modal p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.contact-link:hover {
+  color: #2563eb;
+}
+
+.contact-link i {
+  font-size: 18px;
+}
+
+.contact-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s;
+}
+
+.contact-close-btn:hover {
+  color: #333;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-modal {
+    padding: 20px;
+  }
+
+  .contact-link {
+    font-size: 14px;
+  }
+}

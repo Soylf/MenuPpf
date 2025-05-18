@@ -19,4 +19,6 @@ public class ApiCredential {
     private String bankName;
     private String clientId;
     private String clientSecret;
+    private String memberId;
+    private String idQr;
 }

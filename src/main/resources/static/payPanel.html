@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Форма заказа</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles/pay/payStyles.css">
+    <link rel="stylesheet" href="styles/pay/contact.css">
+    <link rel="stylesheet" href="styles/notification.css">
 </head>
 <body>
 <div class="user-form">
-    <!-- Сумма заказа над заголовком -->
     <div class="order-sum-container">
         <span id="order-sum">Сумма заказа: 0</span>
     </div>
@@ -66,8 +68,36 @@
     </form>
 </div>
 
+<div id="contact-overlay" class="contact-overlay hidden">
+    <div class="contact-modal">
+        <button class="contact-close-btn">&times;</button>
+        <h3>Свяжитесь с нами</h3>
+        <p>Мы готовы ответить на ваши вопросы!</p>
+        <div class="contact-methods">
+            <a href="tel:+79991234567" class="contact-link">
+                <i class="fas fa-phone"></i> +7 (999) 123-45-67
+            </a>
+            <a href="mailto:info@example.com" class="contact-link">
+                <i class="fas fa-envelope"></i> test@example.com
+            </a>
+            <a href="https://t.me/YourTelegramUsername" class="contact-link" target="_blank">
+                <i class="fab fa-telegram-plane"></i> @YourTelegramUsername
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="notification" class="notification">
+    <div class="notification-icon">✓</div>
+    <div class="notification-content">
+        <div class="notification-title" id="notification-title">Успех!</div>
+        <div class="notification-message" id="notification-message">Товар успешно сохранен</div>
+    </div>
+    <button class="notification-close" onclick="hideNotification()">×</button>
+    <div class="notification-progress"></div>
+</div>
+
 <script>
-    // Обработка изменения способа связи
     const connectionInputs = document.querySelectorAll('input[name="connection"]');
     const contactInfoInput = document.getElementById('contact-info');
 
@@ -88,7 +118,6 @@
         });
     });
 
-    // Получаем сумму из localStorage и отображаем её в правом верхнем углу внутри формы
     const orderSum = localStorage.getItem('cartTotalSum');
     const orderSumBlock = document.getElementById('order-sum');
 
@@ -98,5 +127,6 @@
 </script>
 
 <script src="js/pay/payApp.js"></script>
+<script src="js/pay/contact.js"></script>
 </body>
 </html>

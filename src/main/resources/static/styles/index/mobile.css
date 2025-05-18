@@ -5,6 +5,89 @@
     font-family: Arial, sans-serif;
   }
 
+    #product-popup {
+      width: 75vw;
+      max-width: 375px;
+      max-height: 75vh;
+      padding: 25px 20px 25px;
+      border-radius: 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+    }
+
+    .popup-content {
+      width: 100%;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .popup-content img {
+      width: 100%;
+      max-height: 35vh;
+      object-fit: contain;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    .popup-content h3.name {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1C1C1C;
+      margin: 0 0 10px;
+    }
+
+    .popup-content h3.description {
+      font-size: 14px;
+      color: #555;
+      margin: 0 0 20px;
+      padding: 0 10px;
+      line-height: 1.4;
+    }
+
+    .popup-content .add-to-cart-from-popup:hover {
+      background-color: #3b4ff6;
+    }
+
+    .popup-content .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      width: 35px;
+      height: 35px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .close-btn::before,
+    .close-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 24px;
+      height: 2px;
+      background-color: #333;
+      transform-origin: center;
+    }
+
+    .close-btn::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .close-btn::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+
   .menu-site {
     width: 100%;
     max-width: none;
@@ -17,7 +100,6 @@
     padding: 0 0.75rem;
   }
 
-  /* Сетка товаров: две карточки на строку */
   .menu-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

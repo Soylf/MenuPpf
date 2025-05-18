@@ -9,5 +9,5 @@ public interface SiteService {
     void saveOptionsBot(String botName, String botToken);
     List<String> getAllCategory();
     String generateQr(int sum, String name);
-    void setBank(String clientId, String clientSecret, String id_name);
+    void setBank(String clientId, String clientSecret, String idName, String memberId, String idQr);
 }
