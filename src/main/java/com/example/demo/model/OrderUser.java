@@ -11,17 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "items")
-public class Item {
+@Table(name = "orders_users")
+public class OrderUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String price;
-    private int quantity;
-    private String name;
-    private String description;
-    private String category;
-    private String pieces;
-    private String heft;
-    private String image;
+    private Integer key;
+    private String message;
 }

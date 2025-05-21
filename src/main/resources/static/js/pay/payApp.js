@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    function loadCartFromStorage() {
+        const storedCart = localStorage.getItem('cartItems');
+        if (storedCart) {
+            try {
+                return JSON.parse(storedCart);
+            } catch {
+                return [];
+            }
+        }
+        return [];
+    }
+
     function showNotification(title, message, isError = false) {
         const notification = document.getElementById('notification');
         const notificationTitle = document.getElementById('notification-title');
@@ -10,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         notificationIcon.textContent = isError ? '✕' : '✓';
 
         notification.className = isError ? 'notification error' : 'notification success';
-
         notification.classList.add('show');
 
         setTimeout(() => {
@@ -25,17 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
     payButton.addEventListener('click', async (e) => {
         e.preventDefault();
 
+        const cartItems = localStorage.getItem('cartItems');
         const cartTotalSum = localStorage.getItem('cartTotalSum');
         const idName = localStorage.getItem('idName');
 
-        if (!cartTotalSum || !idName) {
+        if (!cartItems || !cartTotalSum || !idName) {
             showNotification('Ошибка!', 'Недостаточно данных для оплаты.', true);
             return;
         }
 
         const userName = form.name.value.trim();
         const age = form.age.value.trim();
-        const relations = form.querySelector('input[name="connection"]:checked').value;
+        const relationsInput = form.querySelector('input[name="connection"]:checked');
+        const relations = relationsInput ? relationsInput.value : '';
         const comment = form.comment.value.trim();
 
         if (!userName) {
@@ -44,26 +57,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const params = new URLSearchParams({
-                sum: cartTotalSum,
+            const bodyData = {
+                sum: parseInt(cartTotalSum), // Число, а не строка
                 name: idName,
                 userName: userName,
                 age: age,
                 relations: relations,
-                comment: comment
-            });
+                comment: comment,
+                itemsDto: JSON.parse(cartItems) // Название должно совпадать с DTO на сервере
+            };
 
-            const response = await fetch(`/order/create?${params.toString()}`, {
-                method: 'POST'
+            const response = await fetch('/order/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData)
             });
 
             if (!response.ok) {
-                throw new Error("Ошибка при создании заказа.");
+                throw new Error('Ошибка при создании заказа.');
             }
 
             const qrLink = await response.text();
-
-            // Перенаправление на страницу с QR-кодом
             window.location.href = qrLink;
 
         } catch (error) {
@@ -74,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
     contactButton.addEventListener('click', async () => {
         const userName = form.name.value.trim();
         const age = form.age.value.trim();
-        const relations = form.querySelector('input[name="connection"]:checked').value;
+        const relationsInput = form.querySelector('input[name="connection"]:checked');
+        const relations = relationsInput ? relationsInput.value : '';
         const comment = form.comment.value.trim();
 
         if (!userName) {
@@ -83,22 +100,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const params = new URLSearchParams({
+            const bodyData = {
                 userName: userName,
                 age: age,
                 relations: relations,
-                comment: comment
-            });
+                comment: comment,
+                itemsDto: [] // Если хотите передать пустой список, чтобы не ругался бек
+            };
 
-            const response = await fetch(`/order/relations?${params.toString()}`, {
-                method: 'POST'
+            const response = await fetch('/order/relations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData)
             });
 
             if (!response.ok) {
-                throw new Error("Ошибка при отправке запроса на связь.");
+                throw new Error('Ошибка при отправке запроса на связь.');
             }
 
-            showNotification('Успех!', 'Ваши данные с формы отправленный! ヽ(*・ω・)ﾉ');
+            showNotification('Успех!', 'Ваши данные с формы отправлены! ヽ(*・ω・)ﾉ');
 
         } catch (error) {
             showNotification('Ошибка!', 'Произошла ошибка при попытке отправить запрос: ' + error.message, true);

@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="styles/index/addition/adminLock.css">
     <link rel="stylesheet" href="styles/index/addition/dropdown.css">
     <link rel="stylesheet" href="styles/index/addition/popup.css">
+    <link rel="stylesheet" href="styles/index/addition/contact.css">
+    <link rel="stylesheet" href="styles/pay/contact.css">
     <link rel="stylesheet" href="styles/index/addition/cartModal.css">
     <link rel="stylesheet" href="styles/index/mobile.css" media="(max-width: 767px)">
 
@@ -104,6 +106,30 @@
     </div>
 </div>
 
+<div id="contact-overlay" class="contact-overlay hidden">
+    <div class="contact-modal">
+        <button class="contact-close-btn">&times;</button>
+        <h3>Свяжитесь с нами</h3>
+        <p>Мы готовы ответить на ваши вопросы!</p>
+        <div class="contact-methods">
+            <a href="tel:+79991234567" class="contact-link">
+                <i class="fas fa-phone"></i> +7 (999) 123-45-67
+            </a>
+            <a href="mailto:info@example.com" class="contact-link">
+                <i class="fas fa-envelope"></i> test@example.com
+            </a>
+            <a href="https://t.me/YourTelegramUsername" class="contact-link" target="_blank">
+                <i class="fab fa-telegram-plane"></i> @YourTelegramUsername
+            </a>
+        </div>
+    </div>
+</div>
+
+<button class="btn-contact-1" aria-label="Связаться с нами">
+    <i class="fas fa-comment-dots"></i>
+</button>
+
+
 <script>
     const toggleButton = document.getElementById('toggle-button');
     const infoList = document.getElementById('info-list');
@@ -115,7 +141,8 @@
         emoji.style.display = isOpen ? 'inline-block' : 'none';
     });
 </script>
-<script src="js/index/cart-modal-open-close.js"></script>
+<script src="js/index/additional/contact.js"></script>
+<script src="js/index/additional/cartModalOpenClose.js"></script>
 <script type="module" src="js/index/app.js"></script>
 </body>
 </html>

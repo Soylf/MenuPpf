@@ -1,4 +1,4 @@
-package com.example.demo.api.config;
+package com.example.demo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;

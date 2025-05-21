@@ -1,25 +1,23 @@
 package com.example.demo.server.controller;
 
-import com.example.demo.api.TelegramBotService;
 import com.example.demo.model.Item;
 import com.example.demo.model.dto.FeedbackFormDto;
 import com.example.demo.model.dto.ItemDto;
+import com.example.demo.model.dto.OrderRequestDto;
+import com.example.demo.model.dto.RelationsRequestDto;
 import com.example.demo.server.service.site.SiteService;
+import com.example.demo.server.service.telegram.TelegramService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
 public class SiteController {
-    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private final SiteService service;
-    private final TelegramBotService telegramBotService;
+    private final TelegramService telegramService;
 
     @GetMapping("/items")
     public List<ItemDto> getAllItems() {
@@ -38,11 +36,6 @@ public class SiteController {
         return ResponseEntity.ok("Настройки сохранены!");
     }
 
-    @PostMapping("/items/set-items")
-    public ResponseEntity<String> setItemsBot(List<Item> items) {
-        telegramBotService.setItems(items);
-        return ResponseEntity.ok("Все ок");
-    }
 
     @PostMapping("/items/set-bank")
     public ResponseEntity<String> setBank(@RequestParam String client_id,
@@ -56,32 +49,38 @@ public class SiteController {
 
 
     @PostMapping("/order/create")
-    public ResponseEntity<String> createOrder(@RequestParam int sum,
-                                              @RequestParam String name,
-                                              @RequestParam String userName,
-                                              @RequestParam String age,
-                                              @RequestParam String relations,
-                                              @RequestParam String comment) {
-        System.out.println("fff");
-        setFeedBackForm(userName, age, relations, comment,"ОПЛАТА");
-        String qr = service.generateQr(sum, name);
+    public ResponseEntity<String> createOrder(@RequestBody OrderRequestDto request) {
+        setFeedBackForm(
+                request.getUserName(),
+                request.getAge(),
+                request.getRelations(),
+                request.getComment(),
+                "ОПЛАТА",
+                request.getItemsDto()
+        );
+        String qr = service.generateQr(request.getSum(), request.getName());
         return ResponseEntity.ok(qr);
     }
 
     @PostMapping("/order/relations")
-    public void relationsInfo(@RequestParam String userName,
-                              @RequestParam String age,
-                              @RequestParam String relations,
-                              @RequestParam String comment){
+    public void relationsInfo(@RequestBody RelationsRequestDto request) {
         System.out.println("ff");
-        setFeedBackForm(userName, age, relations, comment, "СВЯЗЬ");
+        setFeedBackForm(
+                request.getUserName(),
+                request.getAge(),
+                request.getRelations(),
+                request.getComment(),
+                "СВЯЗЬ",
+                request.getItemsDto()
+        );
     }
 
     private void setFeedBackForm(String userName,
                                  String age,
                                  String relations,
                                  String comment,
-                                 String status) {
+                                 String status,
+                                 List<ItemDto> itemsDto) {
         FeedbackFormDto feedbackFormDto = new FeedbackFormDto();
         feedbackFormDto.setUserName(userName);
         feedbackFormDto.setAge(age);
@@ -89,9 +88,23 @@ public class SiteController {
         feedbackFormDto.setComment(comment);
         feedbackFormDto.setStatus(status);
 
-        // минута
-        scheduler.schedule(() -> {
-            telegramBotService.setFeedbackFormDto(feedbackFormDto);
-        }, 1, TimeUnit.MINUTES);
+        List<Item> items = itemsDto.stream()
+                .map(dto -> {
+                    Item item = new Item();
+                    item.setId(dto.getId());
+                    item.setName(dto.getName());
+                    item.setPrice(dto.getPrice());
+                    item.setDescription(dto.getDescription());
+                    item.setCategory(dto.getCategory());
+                    item.setPieces(dto.getPieces());
+                    item.setHeft(dto.getHeft());
+                    item.setImage(dto.getImage());
+                    item.setQuantity(dto.getQuantity());
+                    return item;
+                }).toList();
+
+        telegramService.setFeedbackFormDto(feedbackFormDto);
+        telegramService.setItems(items);
+        telegramService.saveMessage();
     }
 }

@@ -1,10 +1,10 @@
 package com.example.demo.model.dto;
 
 import com.example.demo.model.Item;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class ItemDto {
     private Long id;
@@ -15,6 +15,7 @@ public class ItemDto {
     private String heft;
     private String pieces;
     private String image;
+    private int quantity;
 
     public ItemDto(Item item) {
         this.id = item.getId();
@@ -25,5 +26,6 @@ public class ItemDto {
         this.pieces = item.getPieces();
         this.heft = item.getHeft();
         this.image = item.getImage();
+        this.quantity = item.getQuantity();
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.server.service.site;
 
-import com.example.demo.api.config.BotConfig;
+import com.example.demo.config.BotConfig;
 import com.example.demo.model.ApiCredential;
 import com.example.demo.model.dto.ItemDto;
 import com.example.demo.repository.ApiCredentialRepository;
