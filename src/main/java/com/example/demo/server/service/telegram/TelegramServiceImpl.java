@@ -1,14 +1,16 @@
 package com.example.demo.server.service.telegram;
 
-import com.example.demo.model.Item;
 import com.example.demo.model.OrderUser;
 import com.example.demo.model.dto.FeedbackFormDto;
+import com.example.demo.model.dto.ItemDto;
 import com.example.demo.repository.OrderUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,36 +19,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TelegramServiceImpl implements TelegramService{
     @Setter
-    private List<Item> items = new ArrayList<>();
+    private List<ItemDto> items = new ArrayList<>();
     @Setter
     private FeedbackFormDto feedbackFormDto;
-    private final Integer key = 1;
+    private Integer key = 1;
     private final OrderUserRepository repository;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy, HH:mm:ss");
 
     private String buildOrderMessage() {
         StringBuilder message = new StringBuilder();
 
-        message.append("Номер заказа: ").append(key).append("\n");
+        message.append("Номер заказа: ").append(key++).append("\n");
+        message.append("Время пуска: ").append(LocalDateTime.now().format(formatter)).append("\n");
         message.append("Из ").append(feedbackFormDto.getStatus()).append("\n");
         message.append("Имя клиента: ").append(feedbackFormDto.getUserName()).append("\n");
         message.append("Возраст: ").append(feedbackFormDto.getAge()).append("\n");
         message.append("Контактные данные: ").append(feedbackFormDto.getRelations()).append("\n");
         message.append("Комментарии к заказу: ").append(feedbackFormDto.getComment()).append("\n");
-        message.append("<------------------------------->\n");
+        message.append("<------------------------------------------------->\n");
 
         int index = 1;
-        for (Item item : items) {
+        for (ItemDto item : items) {
             try {
-                int pieces = Integer.parseInt(item.getPieces());
                 int quantity = item.getQuantity();
-                int totalPieces = pieces * quantity;
 
                 message.append("-").append(index++).append(" ")
-                        .append(item.getName()).append(" (").append(item.getPieces()).append(" шт.)")
-                        .append(" — всего = ").append(totalPieces).append("\n");
+                        .append(item.getName()).append(" X").append(quantity).append("\n");
             } catch (NumberFormatException e) {
                 message.append("-").append(index++).append(" ")
-                        .append(item.getName()).append(" — ❌ ошибка: неверное значение \"pieces\" (").append(item.getPieces()).append(")\n");
+                        .append(item.getName()).append(" — ❌ ошибка: что-то пошло не так");
             }
         }
 

@@ -26,6 +26,5 @@ public class ItemDto {
         this.pieces = item.getPieces();
         this.heft = item.getHeft();
         this.image = item.getImage();
-        this.quantity = item.getQuantity();
     }
 }

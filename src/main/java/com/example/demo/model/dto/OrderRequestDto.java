@@ -16,5 +16,5 @@ public class OrderRequestDto {
     private String age;
     private String relations;
     private String comment;
-    private List<ItemDto> itemsDto;
+    private List<ItemDto> itemDtos;
 }

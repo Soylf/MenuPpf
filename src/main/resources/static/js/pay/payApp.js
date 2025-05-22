@@ -1,16 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    function loadCartFromStorage() {
-        const storedCart = localStorage.getItem('cartItems');
-        if (storedCart) {
-            try {
-                return JSON.parse(storedCart);
-            } catch {
-                return [];
-            }
-        }
-        return [];
-    }
-
     function showNotification(title, message, isError = false) {
         const notification = document.getElementById('notification');
         const notificationTitle = document.getElementById('notification-title');
@@ -36,20 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
     payButton.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        const cartItems = localStorage.getItem('cartItems');
         const cartTotalSum = localStorage.getItem('cartTotalSum');
         const idName = localStorage.getItem('idName');
+        const itemDtos = localStorage.getItem("cartItems")
 
-        if (!cartItems || !cartTotalSum || !idName) {
+        if (!cartTotalSum || !idName) {
             showNotification('Ошибка!', 'Недостаточно данных для оплаты.', true);
             return;
         }
 
         const userName = form.name.value.trim();
         const age = form.age.value.trim();
-        const relationsInput = form.querySelector('input[name="connection"]:checked');
-        const relations = relationsInput ? relationsInput.value : '';
         const comment = form.comment.value.trim();
+        const contact = form['contact-info'].value.trim();
 
         if (!userName) {
             showNotification('Ошибка!', 'Пожалуйста, укажите ваше имя.', true);
@@ -58,13 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const bodyData = {
-                sum: parseInt(cartTotalSum), // Число, а не строка
+                sum: parseInt(cartTotalSum),
                 name: idName,
                 userName: userName,
                 age: age,
-                relations: relations,
+                relations: contact,
                 comment: comment,
-                itemsDto: JSON.parse(cartItems) // Название должно совпадать с DTO на сервере
+                itemDtos: JSON.parse(itemDtos)
             };
 
             const response = await fetch('/order/create', {
@@ -90,9 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
     contactButton.addEventListener('click', async () => {
         const userName = form.name.value.trim();
         const age = form.age.value.trim();
-        const relationsInput = form.querySelector('input[name="connection"]:checked');
-        const relations = relationsInput ? relationsInput.value : '';
+        const contact = form['contact-info'].value.trim();
         const comment = form.comment.value.trim();
+        const itemDtos = localStorage.getItem("cartItems")
 
         if (!userName) {
             showNotification('Ошибка!', 'Пожалуйста, укажите ваше имя.', true);
@@ -103,9 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const bodyData = {
                 userName: userName,
                 age: age,
-                relations: relations,
+                relations: contact,
                 comment: comment,
-                itemsDto: [] // Если хотите передать пустой список, чтобы не ругался бек
+                itemDtos: JSON.parse(itemDtos)
             };
 
             const response = await fetch('/order/relations', {

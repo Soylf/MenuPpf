@@ -56,7 +56,7 @@ public class SiteController {
                 request.getRelations(),
                 request.getComment(),
                 "ОПЛАТА",
-                request.getItemsDto()
+                request.getItemDtos()
         );
         String qr = service.generateQr(request.getSum(), request.getName());
         return ResponseEntity.ok(qr);
@@ -64,14 +64,14 @@ public class SiteController {
 
     @PostMapping("/order/relations")
     public void relationsInfo(@RequestBody RelationsRequestDto request) {
-        System.out.println("ff");
+        System.out.println(request.getItemDtos().getFirst().getPieces());
         setFeedBackForm(
                 request.getUserName(),
                 request.getAge(),
                 request.getRelations(),
                 request.getComment(),
                 "СВЯЗЬ",
-                request.getItemsDto()
+                request.getItemDtos()
         );
     }
 
@@ -80,7 +80,7 @@ public class SiteController {
                                  String relations,
                                  String comment,
                                  String status,
-                                 List<ItemDto> itemsDto) {
+                                 List<ItemDto> itemDtos) {
         FeedbackFormDto feedbackFormDto = new FeedbackFormDto();
         feedbackFormDto.setUserName(userName);
         feedbackFormDto.setAge(age);
@@ -88,23 +88,8 @@ public class SiteController {
         feedbackFormDto.setComment(comment);
         feedbackFormDto.setStatus(status);
 
-        List<Item> items = itemsDto.stream()
-                .map(dto -> {
-                    Item item = new Item();
-                    item.setId(dto.getId());
-                    item.setName(dto.getName());
-                    item.setPrice(dto.getPrice());
-                    item.setDescription(dto.getDescription());
-                    item.setCategory(dto.getCategory());
-                    item.setPieces(dto.getPieces());
-                    item.setHeft(dto.getHeft());
-                    item.setImage(dto.getImage());
-                    item.setQuantity(dto.getQuantity());
-                    return item;
-                }).toList();
-
         telegramService.setFeedbackFormDto(feedbackFormDto);
-        telegramService.setItems(items);
+        telegramService.setItems(itemDtos);
         telegramService.saveMessage();
     }
 }
