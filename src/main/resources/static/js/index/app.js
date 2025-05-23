@@ -46,8 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <p class="hidden-description">${item.description || 'Не указано'}</p>
                 <div class="item-info">
-                    <span class="price">${item.price}</span>
-                    <span><strong>₽</strong></span>
+                    <span class="price">${item.price} ₽</span>
                     <span class="item-details"> ${item.heft || 'Не указано'}ккал/${item.pieces || 'Не указано'}шт</span>
                 </div>
                 <h3 class="item-name">${item.name}</h3>
@@ -105,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const popup = document.getElementById('product-popup');
         const overlay = document.getElementById('overlay');
         const content = popup.querySelector('.popup-content');
-        const button = content.querySelector('.add-to-cart-from-popup');
+        const button = popup.querySelector('.add-to-cart-from-popup');
 
         content.querySelector('.name').textContent = data.name;
         content.querySelector('.description').textContent = data.description;
@@ -187,7 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderCartModal(page = 1) {
-        const itemsPerPage = 3;
+        const isMobile = window.innerWidth <= 768;
+        const itemsPerPage = isMobile ? 2 : 3;
+
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const paginatedItems = cart.slice(startIndex, endIndex);

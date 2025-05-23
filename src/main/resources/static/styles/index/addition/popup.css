@@ -32,12 +32,15 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  position: relative;
+  padding-bottom: 60px;
 }
 
 .popup-image-container {
   text-align: center;
   margin: 0 auto;
 }
+
 
 .popup-image-container img {
   width: 100%;
@@ -60,7 +63,7 @@
   padding: 0 10px 0 0;
 }
 
-.popup-content .add-to-cart-from-popup {
+.add-to-cart-from-popup {
   cursor: pointer;
   background-color: #4A58D9;
   color: white;
@@ -76,8 +79,9 @@
   text-align: center;
 }
 
-.popup-content .add-to-cart-from-popup:hover {
+.add-to-cart-from-popup:hover {
   background-color: #3b4ff6;
+  transform: scale(1.05);
 }
 
 .popup-content .close-btn {
