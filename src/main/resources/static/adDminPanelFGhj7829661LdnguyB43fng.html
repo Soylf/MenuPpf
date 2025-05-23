@@ -136,6 +136,16 @@
     </button>
 </div>
 
+<div id="notification" class="notification">
+    <div class="notification-icon">✓</div>
+    <div class="notification-content">
+        <div class="notification-title" id="notification-title">Успех!</div>
+        <div class="notification-message" id="notification-message">Товар успешно сохранен</div>
+    </div>
+    <button class="notification-close" onclick="hideNotification()">×</button>
+    <div class="notification-progress"></div>
+</div>
+
 <script>
     function previewImage(event) {
         const input = event.target;

@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <p class="hidden-description">${item.description || 'Не указано'}</p>
                 <div class="item-info">
-                    <span class="price">${item.price} ₽</span>
+                    <span class="price">${item.price}</span>
+                    <span><strong>₽</strong></span>
                     <span class="item-details"> ${item.heft || 'Не указано'}ккал/${item.pieces || 'Не указано'}шт</span>
                 </div>
                 <h3 class="item-name">${item.name}</h3>
@@ -84,10 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     const target = event.target.closest('.menu-item');
                     const productData = {
                         id: target.dataset.id,
-                        name: target.querySelector('h3').innerText,
-                        description: target.querySelector('p').innerText,
-                        price: parseFloat(target.querySelector('.price').innerText.replace(/[^\d.]/g, '')),
-                        image: target.querySelector('.main-image').src
+                        name: target.querySelector('h3').textContent,
+                        description: target.querySelector('.hidden-description').textContent,
+                        price: parseFloat(target.querySelector('.price').textContent.replace(/[^\d.]/g, '')),
+                        image: target.querySelector('.main-image').src,
+                        heft: target.querySelector('.item-details')?.textContent.match(/(\d+)ккал/)?.[1] || 'Не указано',
+                        pieces: target.querySelector('.item-details')?.textContent.match(/(\d+)шт/)?.[1] || 'Не указано'
                     };
 
                     showPopup(productData);
@@ -106,7 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         content.querySelector('.name').textContent = data.name;
         content.querySelector('.description').textContent = data.description;
-        content.querySelector('.popup-price').textContent = data.price;
+        content.querySelector('.popup-price').textContent =
+            `${data.price} ₽${data.heft ? ` / ${data.heft} ккал` : ''}${data.pieces ? ` / ${data.pieces} шт` : ''}`;
         content.querySelector('.popup-image').src = data.image;
 
         button.dataset.id = data.id;
@@ -124,7 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (idx !== -1) {
                 cart[idx].quantity++;
             } else {
-                cart.push({ id: itemId, name: itemName, price: itemPrice, quantity: 1, image: itemImage });
+                cart.push({
+                    id: itemId,
+                    name: itemName,
+                    price: itemPrice,
+                    quantity: 1,
+                    image: itemImage
+                });
             }
 
             localStorage.setItem('cartItems', JSON.stringify(cart));
