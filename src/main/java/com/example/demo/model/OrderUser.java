@@ -16,6 +16,8 @@ public class OrderUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer key;
+    private Integer orderKey;
+    @Column(columnDefinition = "TEXT")
     private String message;
+
 }

@@ -1,7 +1,5 @@
 package com.example.demo.server.service.telegram;
 
-
-import com.example.demo.model.Item;
 import com.example.demo.model.dto.FeedbackFormDto;
 import com.example.demo.model.dto.ItemDto;
 

@@ -114,3 +114,46 @@
 .close-btn::after {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
+
+.quantity-selector {
+    margin-top: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    color: #333;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 6px 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+    left: 0;
+}
+
+.quantity-selector label {
+    font-weight: 600;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.quantity-selector select {
+    padding: 5px 8px;
+    border: 1.5px solid #4a90e2;
+    border-radius: 8px;
+    background-color: white;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    min-width: 50px;
+    box-shadow: none;
+}
+
+.quantity-selector select:hover,
+.quantity-selector select:focus {
+    border-color: #357ABD;
+    box-shadow: 0 0 6px rgba(53, 122, 189, 0.6);
+    outline: none;
+}

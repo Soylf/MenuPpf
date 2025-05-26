@@ -4,5 +4,5 @@ import com.example.demo.model.OrderUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderUserRepository extends JpaRepository<OrderUser, Long> {
-    void deleteByKey(int key);
+    void deleteByOrderKey(int orderKey);
 }

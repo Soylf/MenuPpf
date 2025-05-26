@@ -26,7 +26,6 @@ public class ItemController {
             @RequestParam String price,
             @RequestParam String category,
             @RequestParam(required = false) String description,
-            @RequestParam String pieces,
             @RequestParam String heft,
             @RequestParam("image") MultipartFile imageFile
     ) throws IOException {
@@ -50,7 +49,6 @@ public class ItemController {
         item.setCategory(category);
         item.setDescription(description);
         item.setHeft(heft);
-        item.setPieces(pieces);
         item.setImage(imageUrl);
 
         service.save(item);

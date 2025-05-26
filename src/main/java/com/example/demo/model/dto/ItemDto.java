@@ -13,9 +13,10 @@ public class ItemDto {
     private String description;
     private String category;
     private String heft;
-    private String pieces;
     private String image;
+
     private int quantity;
+    private String pieces;
 
     public ItemDto(Item item) {
         this.id = item.getId();
@@ -23,7 +24,6 @@ public class ItemDto {
         this.description = item.getDescription();
         this.price = item.getPrice();
         this.category = item.getCategory();
-        this.pieces = item.getPieces();
         this.heft = item.getHeft();
         this.image = item.getImage();
     }

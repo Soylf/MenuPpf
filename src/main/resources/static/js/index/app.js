@@ -108,8 +108,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
         content.querySelector('.name').textContent = data.name;
         content.querySelector('.description').textContent = data.description;
-        content.querySelector('.popup-price').textContent =
-            `${data.price} ₽${data.heft ? ` / ${data.heft} ккал` : ''}${data.pieces ? ` / ${data.pieces} шт` : ''}`;
+
+        const priceContainer = content.querySelector('.popup-price');
+
+        function getDiscountedTotalPrice(pieces) {
+            let total = data.price * pieces;
+            if (pieces >= 12) return total * 0.9;
+            if (pieces >= 8) return total * 0.95;
+            return total;
+        }
+
+        let selectedPieces = 4;
+
+        priceContainer.innerHTML =
+            `${getDiscountedTotalPrice(selectedPieces).toFixed(2)} ₽${data.heft ? ` / ${data.heft} ккал` : ''}` +
+            `
+            <div class="quantity-selector" style="margin-top: 10px;">
+                <label for="quantity-select">Кол-во: </label>
+                <select id="quantity-select">
+                    ${[4, 5, 8, 10, 12, 15, 20].map(val =>
+                        `<option value="${val}"${val === selectedPieces ? ' selected' : ''}>${val}</option>`
+                    ).join('')}
+                </select>
+            </div>
+            <div class="discount-info" style="margin-top:5px; font-size: 0.9em; color: green;">
+                Скидки: от 8 шт. — 5%, от 12 шт. — 10%
+            </div>
+            `;
+
+        const quantitySelect = priceContainer.querySelector('#quantity-select');
+
+        quantitySelect.addEventListener('change', () => {
+            selectedPieces = parseInt(quantitySelect.value, 10);
+            const newTotalPrice = getDiscountedTotalPrice(selectedPieces);
+        });
+
+        priceContainer.innerHTML =
+            `<span id="total-price">${getDiscountedTotalPrice(selectedPieces).toFixed(2)} ₽</span>${data.heft ? ` / ${data.heft} ккал` : ''}` +
+            `
+            <div class="quantity-selector" style="margin-top: 10px;">
+                <label for="quantity-select">Кол-во: </label>
+                <select id="quantity-select">
+                    ${[4, 5, 8, 10, 12, 15, 20].map(val =>
+                        `<option value="${val}"${val === selectedPieces ? ' selected' : ''}>${val}</option>`
+                    ).join('')}
+                </select>
+            </div>
+            <div class="discount-info" style="margin-top:5px; font-size: 0.9em; color: green;">
+                Скидки: от 8 шт. — 5%, от 12 шт. — 10%
+            </div>
+            `;
+
+        const totalPriceSpan = priceContainer.querySelector('#total-price');
+        const quantitySelectNew = priceContainer.querySelector('#quantity-select');
+
+        quantitySelectNew.addEventListener('change', () => {
+            selectedPieces = parseInt(quantitySelectNew.value, 10);
+            const newTotalPrice = getDiscountedTotalPrice(selectedPieces);
+            totalPriceSpan.textContent = `${newTotalPrice.toFixed(2)} ₽`;
+        });
+
         content.querySelector('.popup-image').src = data.image;
 
         button.dataset.id = data.id;
@@ -120,31 +178,53 @@ document.addEventListener('DOMContentLoaded', () => {
         button.onclick = () => {
             const itemId = button.dataset.id;
             const itemName = button.dataset.name;
-            const itemPrice = parseFloat(button.dataset.price);
             const itemImage = button.dataset.image;
 
-            const idx = cart.findIndex(i => i.id === itemId);
-            if (idx !== -1) {
-                cart[idx].quantity++;
-            } else {
-                cart.push({
-                    id: itemId,
-                    name: itemName,
-                    price: itemPrice,
-                    quantity: 1,
-                    image: itemImage
-                });
-            }
+            const pieces = selectedPieces;
+            const discountedTotalPrice = getDiscountedTotalPrice(pieces);
+            const pricePerPiece = discountedTotalPrice / pieces;
 
-            localStorage.setItem('cartItems', JSON.stringify(cart));
-            updateCart();
-            renderCartModal();
+            const newItem = {
+                id: itemId,
+                name: itemName,
+                price: pricePerPiece,
+                quantity: 1,
+                pieces: pieces,
+                image: itemImage
+            };
+
+            removeDuplicateWithDifferentPieces(newItem);
             hidePopup();
         };
 
         popup.classList.remove('hidden');
         overlay.classList.remove('hidden');
     }
+
+    function removeDuplicateWithDifferentPieces(newItem) {
+        const existingIndex = cart.findIndex(item => item.name === newItem.name && item.pieces !== newItem.pieces);
+
+            if (existingIndex !== -1) {
+                cart.splice(existingIndex, 1);
+            }
+
+            const sameItem = cart.find(item => item.name === newItem.name && item.pieces === newItem.pieces);
+
+            if (sameItem) {
+                sameItem.quantity += newItem.quantity || 1;
+            } else {
+                cart.push({
+                    ...newItem,
+                    quantity: newItem.quantity || 1
+                });
+            }
+
+            localStorage.setItem('cartItems', JSON.stringify(cart));
+            updateCart();
+            renderCartModal();
+    }
+
+
 
     function hidePopup() {
         const popup = document.getElementById('product-popup');
@@ -170,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cart.forEach(item => {
             totalQuantity += item.quantity;
-            totalPrice += item.price * item.quantity;
+            totalPrice += item.price * item.quantity * item.pieces;
         });
 
         cartCount.textContent = totalQuantity;
@@ -205,8 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let totalPrice = 0;
 
         cart.forEach(item => {
-            totalQuantity += item.quantity;
-            totalPrice += item.price * item.quantity;
+            totalQuantity += item.quantity * item.pieces;
+            totalPrice += item.price * item.quantity * item.pieces;
         });
 
         paginatedItems.forEach(item => {
@@ -214,20 +294,19 @@ document.addEventListener('DOMContentLoaded', () => {
             itemDiv.classList.add('cart-item');
 
             itemDiv.innerHTML = `
-                <div class="cart-item">
-                    <div class="cart-item-details">
-                        <img src="${item.image}" alt="${item.name}" width="80"/>
-                        <div class="item-info">
-                            <h3>${item.name}</h3>
-                            <p>Цена: ${item.price} ₽</p>
-                            <p>Общая цена: ${(item.price * item.quantity).toFixed(2)} ₽</p>
-                        </div>
-                        <div class="cart-item-quantity-container">
-                            <div class="cart-item-quantity-controls">
-                                <button class="decrease-btn" data-id="${item.id}">-</button>
-                                <span class="cart-item-quantity">${item.quantity}</span>
-                                <button class="increase-btn" data-id="${item.id}">+</button>
-                            </div>
+                <div class="cart-item-details">
+                    <img src="${item.image}" alt="${item.name}" width="80"/>
+                    <div class="item-info">
+                        <h3>${item.name}</h3>
+                        <p>Цена за штуку: ${item.price.toFixed(2)} ₽</p>
+                        <p>Количество штук в наборе: ${item.pieces}</p>
+                        <p>Общая цена: ${(item.price * item.pieces * item.quantity).toFixed(2)} ₽</p>
+                    </div>
+                    <div class="cart-item-quantity-container">
+                        <div class="cart-item-quantity-controls">
+                            <button class="decrease-btn" data-id="${item.id}">-</button>
+                            <span class="cart-item-quantity">${item.quantity}</span>
+                            <button class="increase-btn" data-id="${item.id}">+</button>
                         </div>
                     </div>
                 </div>
@@ -287,6 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
             paginationContainer.appendChild(pageButton);
         }
     }
+
 
     updateCart();
     renderCartModal();

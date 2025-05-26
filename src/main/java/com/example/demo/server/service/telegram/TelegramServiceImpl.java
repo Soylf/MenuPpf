@@ -29,12 +29,13 @@ public class TelegramServiceImpl implements TelegramService{
     private String buildOrderMessage() {
         StringBuilder message = new StringBuilder();
 
-        message.append("Номер заказа: ").append(key++).append("\n");
+        message.append("Номер заказа: ").append(key).append("\n");
         message.append("Время пуска: ").append(LocalDateTime.now().format(formatter)).append("\n");
         message.append("Из ").append(feedbackFormDto.getStatus()).append("\n");
         message.append("Имя клиента: ").append(feedbackFormDto.getUserName()).append("\n");
         message.append("Возраст: ").append(feedbackFormDto.getAge()).append("\n");
         message.append("Контактные данные: ").append(feedbackFormDto.getRelations()).append("\n");
+        message.append("Итоговая цена: ").append(feedbackFormDto.getSum()).append("\n");
         message.append("Комментарии к заказу: ").append(feedbackFormDto.getComment()).append("\n");
         message.append("<------------------------------------------------->\n");
 
@@ -44,7 +45,8 @@ public class TelegramServiceImpl implements TelegramService{
                 int quantity = item.getQuantity();
 
                 message.append("-").append(index++).append(" ")
-                        .append(item.getName()).append(" X").append(quantity).append("\n");
+                        .append(item.getName()).append("(").append(item.getPieces()).append("-шт)")
+                        .append(" X").append(quantity).append("\n");
             } catch (NumberFormatException e) {
                 message.append("-").append(index++).append(" ")
                         .append(item.getName()).append(" — ❌ ошибка: что-то пошло не так");
@@ -59,9 +61,10 @@ public class TelegramServiceImpl implements TelegramService{
     public void saveMessage() {
         String message = buildOrderMessage();
         OrderUser orderUser = new OrderUser();
-        orderUser.setKey(key);
+        orderUser.setOrderKey(key);
         orderUser.setMessage(message);
         repository.save(orderUser);
+        key++;
     }
 
     @Override
@@ -76,6 +79,6 @@ public class TelegramServiceImpl implements TelegramService{
 
     @Override
     public void deleteOrderUser(int key) {
-        repository.deleteByKey(key);
+        repository.deleteByOrderKey(key);
     }
 }

@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const contact = form['contact-info'].value.trim();
         const comment = form.comment.value.trim();
         const itemDtos = localStorage.getItem("cartItems")
+        const cartTotalSum = localStorage.getItem('cartTotalSum');
 
         if (!userName) {
             showNotification('Ошибка!', 'Пожалуйста, укажите ваше имя.', true);
@@ -88,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const bodyData = {
+                sum: parseInt(cartTotalSum),
                 userName: userName,
                 age: age,
                 relations: contact,

@@ -1,6 +1,5 @@
 package com.example.demo.server.controller;
 
-import com.example.demo.model.Item;
 import com.example.demo.model.dto.FeedbackFormDto;
 import com.example.demo.model.dto.ItemDto;
 import com.example.demo.model.dto.OrderRequestDto;
@@ -56,6 +55,7 @@ public class SiteController {
                 request.getRelations(),
                 request.getComment(),
                 "ОПЛАТА",
+                request.getSum(),
                 request.getItemDtos()
         );
         String qr = service.generateQr(request.getSum(), request.getName());
@@ -64,13 +64,13 @@ public class SiteController {
 
     @PostMapping("/order/relations")
     public void relationsInfo(@RequestBody RelationsRequestDto request) {
-        System.out.println(request.getItemDtos().getFirst().getPieces());
         setFeedBackForm(
                 request.getUserName(),
                 request.getAge(),
                 request.getRelations(),
                 request.getComment(),
                 "СВЯЗЬ",
+                request.getSum(),
                 request.getItemDtos()
         );
     }
@@ -80,6 +80,7 @@ public class SiteController {
                                  String relations,
                                  String comment,
                                  String status,
+                                 int sum,
                                  List<ItemDto> itemDtos) {
         FeedbackFormDto feedbackFormDto = new FeedbackFormDto();
         feedbackFormDto.setUserName(userName);
@@ -87,6 +88,7 @@ public class SiteController {
         feedbackFormDto.setRelations(relations);
         feedbackFormDto.setComment(comment);
         feedbackFormDto.setStatus(status);
+        feedbackFormDto.setSum(sum);
 
         telegramService.setFeedbackFormDto(feedbackFormDto);
         telegramService.setItems(itemDtos);

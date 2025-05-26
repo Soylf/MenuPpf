@@ -13,4 +13,5 @@ public class FeedbackFormDto {
     private String relations;
     private String comment;
     private String status;
+    private int sum;
 }

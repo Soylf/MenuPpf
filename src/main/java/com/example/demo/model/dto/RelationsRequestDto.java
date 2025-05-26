@@ -14,5 +14,6 @@ public class RelationsRequestDto {
     private String age;
     private String relations;
     private String comment;
+    private int sum;
     private List<ItemDto> itemDtos;
 }
