@@ -1,4 +1,4 @@
-package com.example.demo.server.service;
+package com.example.demo.server.service.item;
 
 import com.example.demo.model.Item;
 

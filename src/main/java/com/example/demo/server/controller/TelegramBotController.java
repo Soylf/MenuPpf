@@ -18,7 +18,6 @@ import java.util.*;
 public class TelegramBotController extends TelegramLongPollingBot {
     private final BotConfig botConfig;
     private final TelegramService service;
-    private final Set<Long> chatIds = new HashSet<>();
     private final Map<Long, Boolean> awaitingDeleteInput = new HashMap<>();
 
 
@@ -37,7 +36,6 @@ public class TelegramBotController extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Long chatId = update.getMessage().getChatId();
             String text = update.getMessage().getText();
-            chatIds.add(chatId);
 
             if ("📋 Все заказы".equals(text)) {
                 sendMessageWithKeyboard(chatId, buildAllOrdersMessage());

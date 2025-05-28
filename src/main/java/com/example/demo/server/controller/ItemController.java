@@ -1,7 +1,7 @@
 package com.example.demo.server.controller;
 
 import com.example.demo.model.Item;
-import com.example.demo.server.service.ItemService;
+import com.example.demo.server.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

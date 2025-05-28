@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="hidden-description">${item.description || 'Не указано'}</p>
                 <div class="item-info">
                     <span class="price">${item.price} ₽</span>
-                    <span class="item-details"> ${item.heft || 'Не указано'}ккал/${item.pieces || 'Не указано'}шт</span>
+                    <span class="item-details"> ${item.heft || 'Не указано'}ккал</span>
                 </div>
                 <h3 class="item-name">${item.name}</h3>
             `;

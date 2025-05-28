@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 public class BotConfig {
-    private String botName = "TestBot";
-    private String token = "TestBotToken";
+    private String botName = "";
+    private String token = "";
 
     public void updateBotConfig(String botName, String token) {
         this.botName = botName;
